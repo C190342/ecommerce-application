@@ -8,7 +8,7 @@ use Config;
 
 class Setting extends Model
 {
-    //use HasFactory;
+    use HasFactory;
     /**
      * @var string
      */

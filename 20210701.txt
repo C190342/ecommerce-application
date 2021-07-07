@@ -1,0 +1,756 @@
+- VSCode、XAMPP、Composerインストール
+- ComposerでLaravelをインストールし、Example Projectを作成
+
+
+composer global require laravel/installer
+
+laravel new example-app
+
+cd example-app
+
+php artisan serve
+
+=============================
+-- exampleという名前でプロジェクトを作成
+C:\xampp\htdocs>composer create-project laravel/laravel example
+
+-- exampleプロジェクトに侵入
+C:\xampp\htdocs>cd example
+
+-- Serverを実行し 
+C:\xampp\htdocs\example>php artisan serve
+-- Starting Laravel development server: http://127.0.0.1:8000 -> このリンクでLaravel example を実行できます。
+
+-- Create HelloController controller
+C:\xampp\htdocs\example> php artisan make:controller HelloController
+
+-- Create CheckAge middleware
+C:\xampp\htdocs\example> php artisan make:middleware CheckAge
+
+-- Cài đặt gói Laravel HTML package
+C:\xampp\htdocs\example> composer require LaravelCollective/html
+
+-- Cài đặt gói Patricktalmadge/Bootstrapper hỗ trợ viết mã nhanh
+c:\xampp\htdocs\example> composer require patricktalmadge/bootstrapper
+
+
+c:\xampp\htdocs\example> php artisan make:controller ProductController --resource
+
+=============================
+
+早速習って、VSCodeのSettings->Extensions->intelephenseから、設定の下記の５項目のチェックを「外す」。
+
+intelephense.diagnostics.undefinedClassConstants
+intelephense.diagnostics.undefinedConstants
+intelephense.diagnostics.undefinedFunctions
+intelephense.diagnostics.undefinedMethods
+intelephense.diagnostics.undefinedProperties
+intelephense.diagnostics.undefinedTypes
+
+=============================
+
+// Routing
+-- routes/web.php
+
+Route::get('/greeting', function () {
+    return 'Hello World';
+});
+
+-- http://localhost/greeting
+
+Route::redirect('/here', '/there');
+
+
+20210705
+
+
+
+- VSCode、XAMPP、Composerインストール
+- ComposerでLaravelをインストールし、Example Projectを作成
+
+=============================
+-- bookstoreという名前でプロジェクトを作成
+C:\xampp\htdocs>composer create-project laravel/laravel bookstore
+
+-- bookstoreプロジェクトに侵入
+C:\xampp\htdocs>cd bookstore
+
+-- ui install
+C:\xampp\htdocs\bookstore>composer require laravel/ui
+
+-- Auth install
+C:\xampp\htdocs\bookstore> php artisan ui vue --auth
+
+-- Serverを実行し 
+C:\xampp\htdocs\bookstore> php artisan serve
+-- Starting Laravel development server: http://127.0.0.1:8000 -> このリンクでLaravel example を実行できます。
+
+-- Cài đặt gói Laravel HTML package
+C:\xampp\htdocs\bookstore> composer require LaravelCollective/html
+
+-- Cài đặt gói Patricktalmadge/Bootstrapper hỗ trợ viết mã nhanh
+c:\xampp\htdocs\bookstore> composer require patricktalmadge/bootstrapper
+
+-- config/app.php -- タイムゾーン、言語を日本にする
+'timezone' => 'Asia/Tokyo',
+'locale' => 'ja',
+
+-- config/database.php -- DBの文字コードをutf8にする
+'charset' => 'utf8',
+'collation' => 'utf8_unicode_ci',
+
+-- デバッグバーの使用 -- 簡易サーバーを立ち上げると下部にデバッグ情報が表示されるようになります。
+terminal
+composer require barryvdh/laravel-debugbar
+
+-- .env 非表示 -- 本番環境など表示したくない環境では下記のように値を変更します。
+APP_DEBUG=false
+
+-- Laravel-ui、認証
+terminal
+//バージョン指定しない場合
+composer require laravel/ui --dev
+
+//バージョン指定する場合
+composer require laravel/ui:^1.0 --dev
+
+-- スカフォールド生成 https://viblo.asia/p/su-dung-scaffold-cua-frontend-trong-laravel-6-jvElarv45kw
+//ユーザー認証不要時
+php artisan ui bootstrap
+php artisan ui vue
+php artisan ui react
+
+//ユーザー認証
+php artisan ui bootstrap --auth
+php artisan ui vue --auth
+php artisan ui react --auth
+
+
+// migration
+terminal
+php artisan migrate
+
+-- resources\lang\ja\validation.php エラーメッセージの日本語化
+'attributes' => ['email'=>'メールアドレス',
+	'name'=>'名前'
+	],
+https://qiita.com/takeshisakuma/items/44055d362e2f3e8da3d9
+
+
+==============================
+
+// Auth::routes();
+// vendor/laravel/framework/src/Illuminate/Routing/Router.php
+
+public function auth()
+{
+    // Authentication Routes...
+    $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    $this->post('login', 'Auth\LoginController@login');
+    $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
+    // Registration Routes...
+    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    $this->post('register', 'Auth\RegisterController@register');
+
+    // Password Reset Routes...
+    $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+}
+
+// SQL
+-- create Person model and migration
+C:\xampp\htdocs\bookstore> php artisan make:model Person --migration
+-- bookstore/database/migrations/2021_07_05_011851_create_people_table.php
+-- chinh su du lieu trong file tren
+
+-- connect MySQL
+C:\xampp\htdocs\bookstore> mysql -u root -p;
+
+-- create bookstore database
+MariaDB [(none)]> CREATE DATABASE bookstore CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+// .envのDB接続の部分を、先ほど作成したDBに合わせます。
+// config/database.php change
+// Faker de test https://qiita.com/sutara79/items/e19fb386451ab9a4a5fa
+
+=========================
+// cach tao migration rieng:
+C:\xampp\htdocs\bookstore> php artisan make:migration create_Admin_table
+
+// cach run migration rieng:
+C:\xampp\htdocs\bookstore> php artisan migrate --path=/database/migrations/2021_07_05_155849_create_admin_table.php
+
+// Rolling Back Migrations
+-- Rollback The Last Migration Operation
+C:\xampp\htdocs\bookstore> php artisan migrate:rollback
+-- Rollback all migrations
+C:\xampp\htdocs\bookstore> php artisan migrate:reset
+-- Rollback all migrations and run them all again
+C:\xampp\htdocs\bookstore> php artisan migrate:refresh
+-- Rollback all migrations and run them all again with seeder
+C:\xampp\htdocs\bookstore> php artisan migrate:refresh --seed
+
+-- run a seeder which have created in database
+C:\xampp\htdocs\bookstore> php artisan db:seed --class=AttributesTableSeeder
+
+-- dung migration de tao table trong mySQL bookstore database
+C:\xampp\htdocs\bookstore> php artisan migrate
+
+======================== artisan
+https://readouble.com/laravel/8.x/ja/eloquent.html
+
+# モデルの生成時にデータベースマイグレーションも生成
+php artisan make:model Flight --migration
+
+# モデルとFlightFactoryクラスを生成
+php artisan make:model Flight --factory
+php artisan make:model Flight -f
+
+# モデルとFlightSeederクラスを生成
+php artisan make:model Flight --seed
+php artisan make:model Flight -s
+
+# モデルとFlightControllerクラスを生成
+php artisan make:model Flight --controller
+php artisan make:model Flight -c
+
+# モデルとマイグレーション、ファクトリ、シーダ、およびコントローラを生成
+php artisan make:model Flight -mfsc
+
+# モデルとマイグレーション、ファクトリ、シーダ、およびコントローラを生成する短縮形
+php artisan make:model Flight --all
+
+# ピボットモデルを生成
+php artisan make:model Member --pivot
+
+
+======================== change code
+app/Person.php
+config/auth.php 
+app/Http/Controllers/Auth/RegisterController.php
+app\Providers\RouteServiceProvider.php -- // protected $namespace = 'App\\Http\\Controllers';
+
+app\Providers\RouteServiceProvider.php -- thay doi link HOME = '/admin/home';
+
+vendor\laravel\ui\auth-backend\AuthenticatesUsers.php -- thay doi logout action redirect Auth 
+
+// neu dng Git de quan ly thi file .gitignore se bi xoa nen khong the join toi duoc,
+// luc do phai tu khai bao route trong web.php
+web.php
+Auth::routes();
+public function auth()
+vendor/laravel/ui/src/AuthRouteMethods.php
+
+https://qiita.com/nakaji0210/items/036877bf6fe71f5cf9ef
+
+============================
+https://allaravel.com/blog/laravel-eloquent-orm-phan-1-thao-tac-voi-database-qua-eloquent-model
+
+-- Tạo Model
+php artisan make:model Product
+
+-- Tạo Model cùng với file migrate
+php artisan make:model Product --migration
+php artisan make:model Product -m
+
+-- 1 Ngầm định tên bảng + 2 Ngầm định khóa chính
+// thay doi ngam dinh ten cua Model voi table trong SQL
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    // Thay đổi các thiết lập ngầm định của Eloquent Model
+    protected $table = 'my_products';
+    public $primaryKey = 'product_code'; // ngầm định tên id là khóa chính (primary key), khong phai thi phai set lai
+    public $incrementing = false; // không tăng tự động
+
+-- 3 Log thời gian tương tác bản ghi dữ liệu
+Eloquent Model yêu cầu các bảng trong CSDL phải có các trường created_at và updated_at
+nếu bạn không muốn tính năng này, thiết lập thuộc tính $timestamps thành false.
+public $timestamps = false;
+
+
+-- 5.1 Insert dữ liệu
+
+-- Tạo một bảng ghi dữ liệu
+// Su dung Laravel Eloquent 
+<?php
+use App\Product;
+$product          = new Product;
+$product->name    = $request->input('name');
+$product->price   = $request->input('price');
+$product->content = $request->input('content');
+$product->active  = $request->has('active')? 1 : 0;
+$product->save();
+
+// su dung Query Builder
+// Code trích dẫn trong phương thức store của ProductController trong ví dụ Query Builder
+$active = $request->has('active')? 1 : 0;
+    $product_id = DB::table('products')->insertGetId([
+        'name'       => $request->input('name'),
+        'price'      => $request->input('price'),
+        'content'    => $request->input('content'),
+        'image_path' => $request->input('image_path'),
+        'active'     => $active,
+        'created_at' => \Carbon\Carbon::now(),
+        'updated_at' => \Carbon\Carbon::now()
+        ]);
+
+--  Model Mass Assignment
+Mass Assignment xuất phát từ ngôn ngữ Ruby on Rails, 
+là tính năng cho phép lập trình một cách tự động gán các tham số của một HTTP request vào các biến hoặc đối tượng 
+trong lập trình. Ví dụ: chúng ta có một form đăng ký người dùng như sau, 
+các tên trường nhập liệu trùng với tên cột trong bảng users trong CSDL.
+
+<form>
+    <input name='username' type='text'>
+    <input name='password' type='text'>
+    <input name='email' type='text'>
+    <input type=submit>
+</form>
+
+Khi đó form này POST dữ liệu lên chúng ta có thể ghi dữ liệu này vào CSDL bằng đoạn code sau:
+
+$user = new User(Input::all());
+
+Tuy nhiên, có một lỗ hổng bảo mật xảy ra, nếu một kẻ xấu gửi thêm dữ liệu user_type = 'admin', 
+khi đó user mới được tạo sẽ có quyền admin, việc gắn thêm dữ liệu gửi lên server là rất đơn giản 
+có thể thực hiện bằng các công cụ có sẵn trên trình duyệt như Chrome Developer Tools... 
+
+cach 1: thông qua fillable.
+
+class User extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'password', 'email'];
+}
+
+khi đó ta có thể thực hiện:
+
+$user = User::create(Input::all());
+// Hoặc
+$user = new User(Input::al());
+
+cach 2: thông qua thuộc tính $guarded.
+Chú ý, không khai báo cả hai thuộc tính này đồng thời.
+Chú ý: một vấn đề nữa là fillablevàguarded chỉ có tác dụng với các phương thức của Eloquent Model
+
+// Phương thức Eloquent 
+$user = User::find($id);
+$user->update(Input::all());
+
+// Phương thức Query Builder
+User::where('id', $id)->update(Input::all());
+
+-- 3 Một số phương thức tạo bản ghi khác
+// Tìm user trong CSDL nếu không có thì insert bản ghi
+$user = User::firstOrCreate(Input::all());
+
+// Tìm user trong CSDL nếu không có thì trả về một instance của User và chỉ ghi xuống CSDL khi gọi phương thức save()
+$user = User::firstOrCreate(Input::all());
+$user->save();
+
+---- 2 Truy vấn dữ liệu bằng Model
+Để lấy tất cả các record trong table mà Model thể hiện tương ứng sử dụng phương thức all():
+$products = Product::all();
+foreach ($products as $p) {
+    echo 'Sản phẩm: ' . $p->name . ' có giá ' . number_format($p->price) . 'VNĐ' ;
+}
+
+// Chúng ta có thể thêm các điều kiện vào truy vấn:
+$products = Product::where('active', '=', 1)
+        ->where('price', '>', '350000')
+        ->orderBy('name')
+        ->take(10)
+        ->get();
+
+foreach ($products as $p) {
+    echo 'Sản phẩm: ' . $p->name . ' có giá ' . number_format($p->price) . 'VNĐ' ;
+}
+
+
+// Eloquent Model:
+
+use App\Product;
+// tìm một sản phẩm khi biết id của sản phẩm 
+$product = Product::find($product_id);
+echo 'Sản phẩm: ' . $product->name . ' có ID là ' . $product_id;
+
+// lấy một sản phẩm bất kỳ có giá 300k
+$product_300k = Product::where('price', '>', 300000)->first();
+echo 'Sản phẩm: ' . $product->name . ' có giá ' . $product->price . ' VNĐ';
+
+// Số lượng sản phẩm đang đăng bán (có trạng thái active = 1)
+$product_cnt = Product::where('active', '=', 1)->count();
+
+// Giá sản phẩm rẻ nhất đang đăng bán
+$min_price = Product::where('active', '=', 1)->min('price');
+
+
+------- 3 Cập nhật dữ liệu
+
+use App\Product;
+
+$product_id     = 5;
+$product        = Product::find($product_id);
+$product->name  = 'New product name';
+$product->price = 500000;
+$product->save();
+
+// tất cả các sản phẩm TENDA hiện đang hết hàng và chúng ta muốn chuyển chúng sang chế độ không đăng bán active = 0:
+Product::where('active', 1)
+          ->where('name', 'like', '%TENDA%')
+          ->update(['active' => 0]);
+
+
+ ---- 4 Xóa bản ghi dữ liệu
+
+$product = Product::find(1);
+$product->delete();
+
+// Xóa tất cả các sản phẩm đang không active.
+$deletedProducts = Product::where('active', 0)->delete();
+
+-- Xử lý bản ghi đã xóa
+ thực hiện được đánh dấu bản ghi đã xóa, chúng ta sử dụng trait Illuminate\Database\Eloquent\SoftDeletes 
+và thêm deleted_at vào thuộc tính $dates của nó:
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+class Product extends Model
+{
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+}
+
+kiểm tra xem một thực thể của Model là được xóa mềm hay không bằng phương thức trashed()
+if ($product->trashed()) {
+    // Sản phẩm này đã được đánh dấu là đã xóa
+}
+
+-- 2 Truy vấn các bản ghi được xóa "mềm"
+
+// chúng ta sử dụng phương thức withTrashed(): Các bản ghi được đánh dấu là đã xóa, va hien dang co:
+$comments = Comment::withTrashed()
+                ->where('user_id', 1)
+                ->get();
+// Ngược lại nếu muốn chỉ truy vấn các kết quả trong các record đã được xóa mềm, sử dụng phương thức onlyTrashed():
+$comments = Comment::onlyTrashed()
+                ->where('user_id', 1)
+                ->get();
+
+-- 3 Khôi phục các bản ghi đã xóa "mềm"
+
+// Khôi phục một bản ghi đã xóa "mềm"
+$comment->restore();
+
+// Khôi phục nhiều bản ghi đã xóa "mềm" thông qua truy vấn
+Comment::onlyTrashed()->where('user_type', '=', 'admin')->restore();
+
+-- 4 Xóa vĩnh viễn bản ghi
+
+// Xóa cứng một bản ghi
+$comment->forceDelete();
+
+
+---- scope 
+
+https://allaravel.com/blog/laravel-eloquent-orm-phan-1-thao-tac-voi-database-qua-eloquent-model
+
+Model user 
+    /**
+     * Phạm vi truy vấn là các User đã bình chọn lớn hơn 100
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePopular($query)
+    {
+        return $query->where('votes', '>', 100);
+    }
+
+// Chú ý các Scope phạm vi cục bộ được định nghĩa bởi các hàm trong Model với tên bắt đầu bằng scope 
+// (scopePopular, scopeActive...). Khi đó bạn có thể sử dụng các Scope đã được định nghĩa này trong các truy vấn như sau:
+
+// Lấy tất cả các user có lượng bình chọn lớn hơn 100 và đang hoạt động.
+$users = User::popular()->active()->orderBy('created_at')->get();
+
+--- 3 Phạm vi truy vấn động
+Model user 
+    /**
+     * Scope a query to only include users of a given type.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param mixed $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('type', $type);
+    }
+
+// Sau đó, chúng ta có thể truyền tham số khi gọi các Scope này:
+$users = App\User::ofType('admin')->get(); // type = admin
+
+======================== Laravel Event
+
+https://allaravel.com/blog/quan-ly-su-kien-trong-ung-dung-voi-laravel-event/
+
+https://allaravel.com/blog/laravel-eloquent-orm-phan-2-xu-ly-database-relationship
+
+https://allaravel.com/blog/laravel-eloquent-orm-phan-3-xu-ly-du-lieu-dau-ra
+
+
+=========================== MVC
+https://tech.arms-soft.co.jp/entry/2020/05/27/090000
+Controller:
+
+app
+｜
+｜- Http
+ 　　｜- Controllers
+ 　　    ｜- Admin                                 // 管理者ユーザ用のController
+ 　　        ｜- Auth
+ 　　     　　    ｜- LoginController.php
+ 　　     　　    ｜- RegisterController.php        // 登録（コピーして作成）
+ 　　        ｜- HomeController.php
+ 　　    ｜
+ 　　    ｜- Auth                                  // 一般ユーザ用のController
+ 　　        ｜- LoginController.php
+ 　　     　 ｜- RegisterController.php            // 登録
+  　　   ｜- HomeController.php　　 
+
+View:
+
+resource
+ 　　｜- views
+  　　　　｜
+ 　　 　　｜- admin                                   // 管理者ユーザ用のview
+ 　　 　 　　　｜- auth
+ 　 　　　  　　   ｜- login.blade.php
+ 　　  　　    　　｜- register.blade.php             // 登録（コピーして作成）
+ 　　 　　 　　｜- home.blade.php
+ 　　 　　｜
+ 　　 　　｜- layouts
+ 　 　　 　　　｜- admin
+ 　　  　　 　　   ｜- app.blade.php
+ 　　 　　 　　｜- user
+ 　　    　　 　　 ｜- app.blade.php
+ 　　 　　｜- user                                   // 一般ユーザ用のview
+ 　 　　 　　　｜-auth
+ 　　  　　 　　   ｜- login.blade.php
+ 　　     　　 　　｜- register.blade.php             // 登録
+ 　　 　　 　　｜- home.blade.php
+
+
+
+一般ユーザ用　app\Http\Controllers\Auth\RegisterController.php
+
+管理者ユーザ用　app\Http\Controllers\Admin\Auth\RegisterController.php
+
+registerのルーティングを追加 routes/web.php
+
+-- View内のパスを合わせる
+管理者用　resources/views/admin/auth/register.blade.php
+一般  resources/views/user/auth/register.blade.php
+
+-- パスワードリセットに必要なControllerとViewである
+
+ForgotPasswordController.php
+ResetPasswordController.php
+email.blade.php
+reset.blade.php
+
+app
+｜
+｜- Http
+ 　　｜- Controllers
+ 　　    ｜- Admin                                    // 管理者ユーザ用のController
+ 　　        ｜- Auth
+ 　　     　　    ｜- LoginController.php
+ 　　     　　    ｜- RegisterController.php
+ 　　     　　    ｜- ForgotPasswordController.php     // パスワード再設定メール送信（コピーして作成）
+ 　　     　　    ｜- ResetPasswordController.php      // パスワード再設定（コピーして作成）
+ 　　        ｜- HomeController.php
+ 　　    ｜
+ 　　    ｜- Auth                                    // 一般ユーザ用のController
+ 　　         ｜- LoginController.php
+ 　　     　　｜- RegisterController.php
+ 　　     　　｜- ForgotPasswordController.php        // パスワード再設定メール送信
+ 　　     　　｜- ResetPasswordController.php          // パスワード再設定
+  　　   ｜- HomeController.php　　     　　    
+
+
+resource
+ 　　｜- views
+  　　　　｜
+ 　　 　　｜- admin                           // 管理者ユーザ用のview
+ 　　 　 　　　｜- auth
+ 　 　　　  　　   ｜- login.blade.php
+ 　　  　　    　　｜- register.blade.php
+ 　　  　　 　　   ｜- passwords
+ 　　  　　 　　   　   ｜- email.blade.php    // パスワード再設定メール送信（コピーして作成）
+ 　　  　　 　　   　   ｜- reset.blade.php    // パスワード再設定（コピーして作成）
+ 　　 　　 　　｜- home.blade.php
+ 　　 　　｜
+ 　　 　　｜- layouts
+ 　 　　 　　　｜- admin
+ 　　  　　 　　   ｜- app.blade.php
+ 　　 　　 　　｜- user
+ 　　    　　 　　 ｜- app.blade.php
+ 　　 　　｜- user                            // 一般ユーザ用のview
+ 　 　　 　　　｜-auth
+ 　　  　　 　　   ｜- login.blade.php
+ 　　     　　 　　｜- register.blade.php
+ 　　  　　 　　   ｜- passwords
+ 　　  　　 　　   　   ｜- email.blade.php    // パスワード再設定メール送信
+ 　　  　　 　　   　   ｜- reset.blade.php    // パスワード再設定
+ 　　 　　 　　｜- home.blade.php
+
+
+（2）メールの設定を定義する
+// https://mailtrap.io/ acc login:
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=9930972dc826d8
+MAIL_PASSWORD=9e4d8741f97abe
+MAIL_ENCRYPTION=tls
+
+config/mail.phpや.envファイルでメールサーバの情報を定義しておきます。
+
+（3）管理者用のパスワードリセットトークン保存用テーブルの追加作成
+
+
+
+（4）管理者用のパスワードブローカーの定義
+
+（5）ForgotPasswordControllerの準備
+
+一般ユーザ用　app\Http\Controllers\Auth\ForgotPasswordController.php
+管理者ユーザ用　app\Http\Controllers\Admin\Auth\ ForgotPasswordController.php
+
+（6）ResetPasswordControllerの準備
+一般ユーザ用　app\Http\Controllers\Auth\ResetPasswordController.php
+管理者ユーザ用　app\Http\Controllers\Admin\Auth\ ForgotPasswordController.php
+
+
+guard
+https://readouble.com/laravel/5.5/ja/authentication.html
+
+send email
+https://brightful.jp/blog/programming/laravel-send-mail/
+
+https://tech.arms-soft.co.jp/entry/2020/05/27/090000#2%E3%83%A1%E3%83%BC%E3%83%AB%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%82%92%E5%AE%9A%E7%BE%A9%E3%81%99%E3%82%8B
+
+https://readouble.com/laravel/7.x/ja/authentication.html
+
+
+============ send email
+Step 1: Make Configuration
+.env>>
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=mygoogle@gmail.com
+MAIL_PASSWORD=rrnnucvnqlbsl
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=mygoogle@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+Step 2: Create Mail
+php artisan make:mail MyTestMail
+app\Mail\MyTestMail.php>>
+
+Step 3: Create Blade View
+resources/views/emails/myTestMail.blade.php>>
+
+Step 4: Add Route
+routes/web.php>>
+
+
+
+==================
+php artisan make:mail OfferMail --markdown=emails.offerSendMail
+php artisan make:controller MailController
+
+php artisan make:mail Reminder
+
+
+
+=============================
+
+https://www.larashout.com/laravel-ecommerce-application-development-introduction
+
+https://www.larashout.com/laravel-e-commerce-application-development-initial-project-setup
+
+https://www.larashout.com/laravel-e-commerce-application-development-assets-setup-using-laravel-mix
+
+down nvm https://github.com/coreybutler/nvm-windows --  https://github.com/nvm-sh/nvm
+
+https://www.larashout.com/admin-model-migration
+
+app/Providers/AppServiceProvider.php >> -- Schema::defaultStringLength(191);
+
+https://www.larashout.com/backend-admin-authentication
+
+composer require laravel/ui
+
+https://www.larashout.com/base-controller-and-repository
+
+https://www.larashout.com/settings-section-part-1
+
+https://www.larashout.com/settings-section-part-2
+
+// GIT
+-- Pham Thi Anh@PC20212033 MINGW64 /c/xampp/htdocs/ecommerce-application
+git init
+
+git add .
+
+git commit -m "initial commit"
+
+git remote add origin https://github.com/C190342/ecommerce-application.git
+
+git push -u origin master
+
+-- sau khi thay doi
+git add .
+
+git commit -m "first time upload code"
+
+git push origin master
+
+
+=============================-
+
+https://www.larashout.com/categories-section-part-1
+
+https://www.larashout.com/laravel-e-commerce-application-development-categories-section-part-2
+
+php artisan storage:link
+
+https://www.larashout.com/attributes-section-part-1
+
+https://www.larashout.com/attributes-section-part-2
+
+
+
+
+
+
+
+
+
