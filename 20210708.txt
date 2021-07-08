@@ -1,0 +1,61 @@
+node -v
+
+npm -v 
+
+D:\Working\PHP\xampp\htdocs\ecommerce-application> npm init -y
+
+D:\Working\PHP\xampp\htdocs\ecommerce-application> npm install laravel-mix --save-dev
+
+D:\Working\PHP\xampp\htdocs\ecommerce-application> npm i uuid@7.0.3
+
+First,
+Run your command prompt or powershell as Administrator role. Then you'll get avoided with PERMISSION ERROR.
+
+Second,
+Ignore npm audit fix. It only suggests you to renovate all of your package.json dependencies up-to-date. You should preserve the settings clarified in package.json.
+
+Third,
+If you're working on ubuntu or OS X, you won't face this issue, I guess.
+
+PS:
+
+According to your reply, I'd like to think about the workaround.
+
+Remove the local node_modules & package-lock.json
+Clean npm cache by npm cache verify
+Update the global npm by sudo npm i -g npm
+Reinstall the local node_modules by npm i
+npm i query-string@0.2.0
+npm i uuid@7.0.3
+npm init -y
+npm install laravel-mix --save-dev
+-- run mix
+npx mix
+
+================================ git code ve
+ssh-keygen -t rsa
+cd ~/.ssh
+chmod 600 id_rsa
+
+~/.ssh/config>>>
+Host github
+    HostName        github.com
+    IdentityFile    ~/.ssh/id_rsa
+    User            git
+
+clip < ~/.ssh/id_rsa.pub
+
+$ ssh github
+
+
+gefor@DESKTOP-7CH39PJ MINGW64 /d/Working/PHP/xampp/htdocs
+$ git clone git@github.com:C190342/ecommerce-application
+
+gefor@DESKTOP-7CH39PJ MINGW64 /d/Working/PHP/xampp/htdocs
+$ cd ecommerce-application
+
+gefor@DESKTOP-7CH39PJ MINGW64 /d/Working/PHP/xampp/htdocs/ecommerce-application (main)
+$ git checkout master0707
+
+gefor@DESKTOP-7CH39PJ MINGW64 /d/Working/PHP/xampp/htdocs/ecommerce-application (master0707)
+$ git clone git@github.com:C190342/ecommerce-application
