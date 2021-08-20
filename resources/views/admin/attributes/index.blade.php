@@ -60,7 +60,14 @@
     </div>
 @endsection
 @push('scripts')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sampleTable').DataTable( {
+            "lengthMenu": [ [5, 10, 25, -1], [5, 10, 25, "All"] ]
+            } );
+        } );
+    </script>
 @endpush

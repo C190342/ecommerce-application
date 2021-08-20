@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\AttributeValue;
+use Illuminate\Database\Seeder;
 
 class AttributeValuesTableSeeder extends Seeder
 {
@@ -14,7 +14,6 @@ class AttributeValuesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
         $sizes = ['small', 'medium', 'large'];
         $colors = ['black', 'blue', 'red', 'orange'];
 

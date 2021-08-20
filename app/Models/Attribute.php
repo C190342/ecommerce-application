@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AttributeValue;
 
 /**
  * Class Attribute
@@ -12,8 +10,6 @@ use App\Models\AttributeValue;
  */
 class Attribute extends Model
 {
-    use HasFactory;
-
     /**
      * @var string
      */

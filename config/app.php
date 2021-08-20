@@ -177,6 +177,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\SettingServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
+        
+        Darryldecode\Cart\CartServiceProvider::class,
 
     ],
 
@@ -230,6 +233,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
 
     ],
 

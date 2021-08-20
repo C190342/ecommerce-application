@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +30,11 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        View::share('value', 'key');
+
+        $settings=DB::table('settings')->pluck('value', 'key')->toArray();
+        //$setting = array_values($settings);
+        View::share('settings',$settings);
+        //Log::info($settings);
     }
 }

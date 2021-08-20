@@ -1,5 +1,6 @@
 @extends('admin.app')
 @section('title') {{ $pageTitle }} @endsection
+
 @section('content')
     <div class="app-title">
         <div>
@@ -30,7 +31,7 @@
                             @foreach($categories as $category)
                                 @if ($category->id != 1)
                                     <tr>
-                                        <td>{{ $category->id }}</td>
+                                        <td>{{ $loop->index+1 }}</td> {{-- Getting the position (index) of an object in foreach --}}
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->slug }}</td>
                                         <td>{{ $category->parent->name }}</td>
@@ -68,7 +69,14 @@
     </div>
 @endsection
 @push('scripts')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sampleTable').DataTable( {
+            "lengthMenu": [ [5, 10, 25, -1], [5, 10, 25, "All"] ]
+            } );
+        } );
+    </script>
 @endpush

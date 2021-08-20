@@ -18,3 +18,21 @@ const mix = require('laravel-mix');
 //    .postCss('resources/css/app.css', 'public/css', [
         //
 //    ]);
+
+mix.js('resources/js/app.js', 'public/backend/js').vue({ version: 3 });
+//mix.js('resources/js/app.js', 'public/backend/js').vue();
+//mix.js('resources/js/app.js', 'public/backend/js');
+
+const webpack = require('webpack')
+
+mix.webpackConfig ({
+  plugins: [
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: true,
+      NICE_FEATURE: JSON.stringify(true),
+        EXPERIMENTAL_FEATURE: JSON.stringify(true),
+    }),
+  ],
+});
+

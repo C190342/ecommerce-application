@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use App\Contracts\AttributeContract;
+use Illuminate\Support\Facades\DB;
 
 class AttributeController extends BaseController
 {
@@ -42,12 +43,14 @@ class AttributeController extends BaseController
 
         $attribute = $this->attributeRepository->createAttribute($params);
 
+        $msg = 'Attribute「'.$attribute->name.'」 added successfully';
+
         if (!$attribute) {
             return $this->responseRedirectBack('Error occurred while creating attribute.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.attributes.index', 'Attribute added successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.attributes.index', $msg ,'success',false, false);
     }
-
+    
     public function edit($id)
     {
         $attribute = $this->attributeRepository->findAttributeById($id);
@@ -68,19 +71,36 @@ class AttributeController extends BaseController
 
         $attribute = $this->attributeRepository->updateAttribute($params);
 
+        $msg = 'Attribute「'.$attribute->name.'」 updated successfully';
+
         if (!$attribute) {
             return $this->responseRedirectBack('Error occurred while updating attribute.', 'error', true, true);
         }
-        return $this->responseRedirectBack('Attribute updated successfully' ,'success',false, false);
+
+        return $this->responseRedirect('admin.attributes.index', $msg ,'success',false, false);
     }
 
     public function delete($id)
     {
+        // delete foreign key attribute_id
+        $attributeValues = DB::table('attribute_values')
+                ->where('attribute_id', $id)
+                ->get();// $this->attributeRepository->deleteAttribute($id);
+        if($attributeValues){
+            DB::table('attribute_values')->where('attribute_id', $id)->delete();
+        }
+
+        $targetAttribute = $this->attributeRepository->findAttributeById($id);
+
+        // delete attribute
         $attribute = $this->attributeRepository->deleteAttribute($id);
+        
+        $msg = 'Attribute「'.$targetAttribute->name.'」 deleted successfully';
 
         if (!$attribute) {
             return $this->responseRedirectBack('Error occurred while deleting attribute.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.attributes.index', 'Attribute deleted successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.attributes.index', $msg ,'success',false, false);
     }
+
 }

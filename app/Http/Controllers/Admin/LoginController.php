@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    // added the AuthenticatesUsers trait which Laravel provides for authenticating users
     use AuthenticatesUsers;
 
     /**
@@ -29,7 +28,7 @@ class LoginController extends Controller
         $this->middleware('guest:admin')->except('logout');
     }
 
-    /** add that and return a login page view.
+    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showLoginForm()
@@ -67,5 +66,4 @@ class LoginController extends Controller
         $request->session()->invalidate();
         return redirect()->route('admin.login');
     }
-
 }

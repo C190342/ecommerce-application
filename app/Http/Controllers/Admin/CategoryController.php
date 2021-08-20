@@ -31,7 +31,8 @@ class CategoryController extends BaseController
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
-    {
+    {   
+        //$categories = $this->categoryRepository->treeList();
         $categories = $this->categoryRepository->listCategories();
 
         $this->setPageTitle('Categories', 'List of all categories');
@@ -43,7 +44,8 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $categories = $this->categoryRepository->listCategories('id', 'asc');
+        $categories = $this->categoryRepository->treeList();
+        //$categories = $this->categoryRepository->listCategories('id', 'asc');
 
         $this->setPageTitle('Categories', 'Create Category');
         return view('admin.categories.create', compact('categories'));
@@ -66,10 +68,12 @@ class CategoryController extends BaseController
 
         $category = $this->categoryRepository->createCategory($params);
 
+        $msg = 'Category「'.$category->name.'」 added successfully';
+
         if (!$category) {
             return $this->responseRedirectBack('Error occurred while creating category.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.categories.index', 'Category added successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.categories.index', $msg ,'success',false, false);
     }
 
     /**
@@ -79,7 +83,8 @@ class CategoryController extends BaseController
     public function edit($id)
     {
         $targetCategory = $this->categoryRepository->findCategoryById($id);
-        $categories = $this->categoryRepository->listCategories();
+        $categories = $this->categoryRepository->treeList();
+        //$categories = $this->categoryRepository->listCategories();
 
         $this->setPageTitle('Categories', 'Edit Category : '.$targetCategory->name);
         return view('admin.categories.edit', compact('categories', 'targetCategory'));
@@ -102,10 +107,13 @@ class CategoryController extends BaseController
         
         $category = $this->categoryRepository->updateCategory($params);
 
+        $msg = 'Category「'.$category->name.'」 updated successfully';
+
         if (!$category) {
             return $this->responseRedirectBack('Error occurred while updating category.', 'error', true, true);
         }
-        return $this->responseRedirectBack('Category updated successfully' ,'success',false, false);
+        
+        return $this->responseRedirect('admin.categories.index', $msg,'success',false, false);
     }
 
     /**
@@ -114,12 +122,16 @@ class CategoryController extends BaseController
      */
     public function delete($id)
     {
+        $targetCategory = $this->categoryRepository->findCategoryById($id);
+
         $category = $this->categoryRepository->deleteCategory($id);
+
+        $msg = 'Category「'.$targetCategory->name.'」 deleted successfully';
 
         if (!$category) {
             return $this->responseRedirectBack('Error occurred while deleting category.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.categories.index', 'Category deleted successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.categories.index', $msg ,'success',false, false);
     }
 
 

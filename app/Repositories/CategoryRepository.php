@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class CategoryRepository
@@ -134,6 +135,25 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         $category->delete();
 
         return $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function treeList()
+    {
+        return Category::orderByRaw('-name ASC')
+            ->get()
+            ->nest()
+            ->listsFlattened('name');
+    }
+
+    public function findBySlug($slug)
+    {
+        return Category::with('products')
+            ->where('slug', $slug)
+            ->where('menu', 1)
+            ->first();
     }
 
 }

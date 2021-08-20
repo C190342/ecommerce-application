@@ -59,4 +59,6 @@ class SettingController extends BaseController
         }
         return $this->responseRedirectBack('Settings updated successfully.', 'success');
     }
+
+    
 }

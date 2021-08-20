@@ -38,6 +38,28 @@
                 />
             </div>
             <div class="form-group">
+                <label class="control-label" for="phone_number">Phone number</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter store phone number"
+                    id="phone_number"
+                    name="phone_number"
+                    value="{{ config('settings.phone_number') }}"
+                />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="fax_number">Fax number</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Enter store fax number"
+                    id="fax_number"
+                    name="fax_number"
+                    value="{{ config('settings.fax_number') }}"
+                />
+            </div>
+            <div class="form-group">
                 <label class="control-label" for="currency_code">Currency Code</label>
                 <input
                     class="form-control"

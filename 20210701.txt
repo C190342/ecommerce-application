@@ -733,6 +733,61 @@ git commit -m "first time upload code"
 
 git push origin master
 
+// day code len khi chi co 1 minh lam viec (ko can lay tu server ve, chi day tu local len)
+-- trong thu muc project
+-- khoi tao git
+git init
+
+-- tao branch moi
+git branch master0707
+
+-- ghép nhánh 
+git merge
+
+-- <dang o nhanh master -- doi sang nhanh moi>
+git checkout master0707
+
+-- luu thay doi
+git add .
+
+-- push len server
+git push origin master0707
+==> xong
+
+https://www.thanhlongdev.com/huong-dan-su-dung-git-va-cach-push-project-len-github/
+
+// Trước khi muốn thay đổi source code, điều đầu tiên mà bạn cần phải làm là checkout một nhánh.
+
+-- Để checkout một nhánh, bạn dùng câu lệnh Git sau:
+git checkout <name_branch>
+
+-- Để tạo mới một nhánh và checkout luôn nhánh đó thì bạn dùng câu lệnh:
+git checkout -b <name_branch>
+
+-- Ngoài ra, để quay lại nhánh master:
+git checkout master
+
+
+// Add len local repository
+
+-- Để cập nhật tất cả các file thì ta sử dụng câu lệnh:
+git add .
+
+-- Còn muốn cập một file nào đó thì sử dụng câu lệnh:
+git add .<tên file>
+
+// commit chu thich thay doi
+
+git commit –m "chu thich gi o day"
+
+// Sau câu lệnh Commit, thông tin mới chỉ được cập nhật lên Local Repository. 
+
+-- Nếu bạn muốn cập nhật lên server thì bạn phải sử dụng câu lệnh push:
+git push origin <name_branch>
+
+-- Ngoài ra, nếu chưa tồn tại remote trên server thì bạn cần phải add mới một remote trước rồi mới push:
+git remote add origin <remote_url>
+git push origin <name_branch>
 
 =============================-
 
@@ -747,10 +802,248 @@ https://www.larashout.com/attributes-section-part-1
 https://www.larashout.com/attributes-section-part-2
 
 
+============================== Mysql
+https://proengineer.internous.co.jp/content/columnfeature/6638
+
+-- dang nhap mysql
+C:\Users\Pham Thi Anh>mysql -u root -p
+
+// liet ke danh sach user Mysql
+-- liet ke danh sach
+MariaDB [(none)]> SELECT user, host FROM mysql.user;
+
+-- xoa user pma
+MariaDB [(none)]> DROP USER 'pma'@'localhost';
+
+-- tao user
+MariaDB [(none)]> CREATE USER 'pma'@'localhost';
+
+https://www.larashout.com/attributes-section-part-3
+
+https://www.npmjs.com/package/sass-loader/v/7.3.1
+
+--To begin, you'll need to install sass-loader:
+
+npm install sass-loader node-sass webpack --save-dev
 
 
+==========================
 
 
+npm install laravel-elixir-vue-2 --save-dev
+
+https://www.larashout.com/brands-section
+
+https://www.larashout.com/products-section-part-1
+
+https://www.larashout.com/products-section-part-2
+
+https://www.larashout.com/products-section-part-3
+
+https://www.larashout.com/products-section-part-4
+
+========================== reset link
+cd to your <project_root>/public directory and run 'rmdir storage' - it will remove the link
+
+cd back to project root directory and run 'php artisan storage:link' to link again
+
+==========================
+
+https://www.larashout.com/frontend-login-registration
+
+https://www.larashout.com/categories-navigation
+
+composer require typicms/nestablecollection
+
+https://www.larashout.com/laravel-e-commerce-application-development-catalog-listing
+
+ModelName::with($relation) -> 関係名Controller と　View 結果名
+
+========================
+
+https://www.larashout.com/laravel-e-commerce-application-development-product-details-page
+
+https://www.larashout.com/laravel-e-commerce-application-development-shopping-cart
+
+https://www.larashout.com/laravel-e-commerce-application-development-checkout
+
+========================
+
+https://www.larashout.com/payment-processing
+
+composer install paypal/rest-api-sdk-php
+
+composer require paypal/rest-api-sdk-php
+
+https://www.larashout.com/order-management
+
+======================== Getting a 500 Internal Server Error on Laravel
+
+php artisan key:generate
+
+php artisan cache:clear 
+
+php artisan config:clear
+
+//////////// chinh sua Cart
+\vendor\darryldecode\cart\src\Darryldecode\Cart\Cart.php
+
+https://github.com/darryldecode/laravelshoppingcart#conditions
+
+[
+    {
+        "id":8,
+        "order_number":"ORD-610CD23347328",
+        "user_id":2,
+        "status":"completed",
+        "grand_total":"382000.000000",
+        "item_count":3,
+        "payment_status":1,
+        "payment_method":null,
+        "first_name":"nakamura",
+        "last_name":"mei",
+        "address":"1777\u756a\u57301",
+        "city":"\u718a\u8c37\u5e02",
+        "country":"Japan",
+        "post_code":"360-0025",
+        "phone_number":"0485238855",
+        "notes":"Templates are executed by applying them to a data structure. 
+        Annotations in the template refer to elements of the data structure 
+        (typically a field of a struct or a key in a map) to control execution 
+        and derive values to be displayed. Execution of the template walks the 
+        structure and sets the cursor, represented by a period '.' and called \"dot\", 
+        to the value at the current location in the structure as execution proceeds.",
+        
+        "created_at":"2021-08-06T06:09:55.000000Z",
+        "updated_at":"2021-08-06T06:09:55.000000Z"
+    },
+    {
+        "id":12,
+        "order_number":"ORD-610CD672E488F",
+        "user_id":2,
+        "status":"pending",
+        "grand_total":"108000.000000",
+        "item_count":1,
+        "payment_status":0,
+        "payment_method":null,
+        "first_name":"ikeda",
+        "last_name":"suzuka",
+        "address":"3-3-11-1",
+        "city":"\u4e0a\u5c3e\u5e02",
+        "country":"Japan",
+        "post_code":"362-0015",
+        "phone_number":"0363624983",
+        "notes":"The round() function rounds a floating-point number.
+        \r\n\r\nTip: To round a number UP to the nearest integer, 
+        look at the ceil() function.\r\n\r\nTip: To round a number 
+        DOWN to the nearest integer, look at the floor() function.",
+
+        "created_at":"2021-08-06T06:28:02.000000Z",
+        "updated_at":"2021-08-06T06:28:02.000000Z"
+    }
+]  
+
+// order->items
+[
+    {
+        "id":17,
+        "order_id":12,
+        "product_id":6,
+        "quantity":1,
+        "price":"108000.000000",
+        "created_at":"2021-08-06T06:28:02.000000Z",
+        "updated_at":"2021-08-06T06:28:02.000000Z"
+    }
+] 
+
+// $item->product
+
+{
+    "id":15,
+    "brand_id":7,
+    "sku":"ksdjhsfjd",
+    "name":"product 07",
+    "slug":"product-07",
+    "description":null,
+    "quantity":12,
+    "weight":null,
+    "price":"3300.00",
+    "sale_price":null,
+    "status":false,
+    "featured":false,
+    "created_at":"2021-08-05T06:28:43.000000Z",
+    "updated_at":"2021-08-05T06:28:43.000000Z"
+}  
+
+// 07/30
+
+PHP、Laravel 自習
+
+＊ オンライン販売ウエブサイトの構築・デザイン：
+
+- Bootstrap 4、JavaScriptを利用して、レイアウト・デザインします。
+・BootstrapはHTML／CSS／JavaScriptから構成される最も有名なWEBフレームワークです。
+・WEBページでよく使われるフォーム、ボタン、メニューなどの部品がテンプレートとして用意されています。また、デザイン性も確保されているため、WEBページのスタイルも最低限の調整で済んでしまいます。
+
+- PHP言語、Laravelフレームワーク を使って、バックエンド・フロントエンドを作ります。
+・バックエンド（Backend）：サーバーサイドの処理を指し、一般的にユーザーの目に見えることのないサーバーやデータベース、機能、処理を担うプログラムやモジュールなど、仕組みや機能、部品のことを指します。
+・フロントエンド（Frontend）：ユーザーと直接データのやり取りを行う要素のことで、Web制作ではWebブラウザ側（クライアント側）を指します。
 
 
+* バックエンドの仕組みや機能：
+- 管理アカウントをログインする。
+- ウェブサイトのsettings:
+・Site Name、Site Title、Default Email Address、Telephone　number、...
+・Site Logo、Site Favicon、...
+・Footer & SEO：Footer Copyright Text、SEO Meta Title、...
+・Social Links：Facebook、Twitter、Instagram、...
+・Analytics：Google Analytics、Facebook Pixel、...
+・Payment Settings：Stripe Payment Method、PayPal Payment Method、...
+- 商品の情報：商品のカテゴリー、商品名、商品の属性、...
+- データ処理：追加、更新、削除
 
+// 08/06
+
+PHP、Laravel 自習
+
+＊ オンライン販売ウエブサイトの構築・デザイン：
+* バックエンドの仕組みを続けています：
+商品の情報：商品のメーカー、商品の写真を追加する。
+
+データサンプルを入力し、バックエンドのデザインや機能をテストします。
+
+------
+
+バックエンドでシステムの情報を取れることだからこそ、セキュリティ対策を考えなければなりません。
+LaravelフレームワークにてAuthパッケージを使うのが便利です。
+
+// 08/20
+
+PHP、Laravel 自習
+＊ オンライン販売ウエブサイトの構築・デザイン：
+* フロントエンドの仕組みや機能：
+- ウェブサイトのlayouts:
+・Header:
+    ・ウエブサイトのlogo
+    ・検索バー
+    ・User information
+・Main content:
+    ・ホームページ：新しい商品、セール商品、お勧め商品の情報を表示します。
+    ・商品のカテゴリーページ：カテゴリーの全ての商品を表示します。
+    ・商品の情報ページ：商品の情報を詳細に表示します。
+    ・Cartページ：カゴに入れた商品を表示します。
+    ・オーダーページ：注文した情報：オーダー名、オーダー時間、商品、金額、宛先、支払い方、支払いstatusなど表示します。
+    ・ログオンページ：ユーザーの情報を登録するためです。
+    ・ログインページ：ユーザーの情報を管理するや注文した情報のオーダーページをアクセス可能です。
+    ・ログアウトページ
+・Footer:
+    ・ウエブサイトの情報
+    ・ウエブサイトのcopyright
+
+
+＝ーーー
+バックエンドで入力した商品の情報をフロントエンドに表示します。入力した情報と表示したい情報の関係を考えなければなりません。
+ウエブサイトに不審なアクセスを避けるため、どんな情報かどういう表示の方かも考えなければなりません。
+
+
+＝＝＝＝＝＝＝＝＝＝＝

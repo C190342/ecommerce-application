@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Attribute;
 
 /**
  * Class AttributeValue
@@ -12,8 +10,6 @@ use App\Models\Attribute;
  */
 class AttributeValue extends Model
 {
-    use HasFactory;
-
     /**
      * @var string
      */
@@ -40,4 +36,14 @@ class AttributeValue extends Model
     {
         return $this->belongsTo(Attribute::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function productAttributes()
+    {
+        return $this->belongsToMany(ProductAttribute::class);
+    }
+
+    
 }

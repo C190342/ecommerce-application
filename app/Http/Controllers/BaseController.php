@@ -13,6 +13,7 @@ class BaseController extends Controller
 
     protected $data = null;
 
+
     /**
      * @param $title
      * @param $subTitle

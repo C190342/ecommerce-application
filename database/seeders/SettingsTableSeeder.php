@@ -13,15 +13,23 @@ class SettingsTableSeeder extends Seeder
     protected $settings = [
         [
             'key'                       =>  'site_name',
-            'value'                     =>  'E-Commerce Application',
+            'value'                     =>  'E-Commerce',
         ],
         [
             'key'                       =>  'site_title',
-            'value'                     =>  'E-Commerce',
+            'value'                     =>  'E-Commerce Application',
         ],
         [
             'key'                       =>  'default_email_address',
             'value'                     =>  'admin@admin.com',
+        ],
+        [
+            'key'                       =>  'phone_number',
+            'value'                     =>  '(+81)0987654321',
+        ],
+        [
+            'key'                       =>  'fax_number',
+            'value'                     =>  '(+81)0987654322',
         ],
         [
             'key'                       =>  'currency_code',
