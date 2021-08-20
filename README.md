@@ -23,7 +23,12 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Pages image
 
-<img src="" >
+<img src="https://raw.githubusercontent.com/C190342/ecommerce-application/main/home_page.png" >
+<img src="https://raw.githubusercontent.com/C190342/ecommerce-application/main/categories_page.png" >
+<img src="https://raw.githubusercontent.com/C190342/ecommerce-application/main/product_page.png" >
+<img src="https://raw.githubusercontent.com/C190342/ecommerce-application/main/cart_page.png" >
+<img src="https://raw.githubusercontent.com/C190342/ecommerce-application/main/orderlist_page.png" >
+<img src="https://raw.githubusercontent.com/C190342/ecommerce-application/main/profile_page.png" >
 
 ### Premium Partners
 
