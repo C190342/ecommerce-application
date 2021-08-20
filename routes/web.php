@@ -67,3 +67,11 @@ Route::group(['middleware' => ['auth']], function () {
     });
     
 });
+
+
+// others
+Route::view('/others/filter', 'site.pages.others.filter');
+Route::view('/others/banners', 'site.pages.others.banners');
+Route::view('/others/features', 'site.pages.others.features');
+Route::view('/others/forms', 'site.pages.others.forms');
+Route::view('/others/itemside', 'site.pages.others.itemside');

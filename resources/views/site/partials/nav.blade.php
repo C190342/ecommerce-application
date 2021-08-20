@@ -25,6 +25,19 @@
                         @endif
                     @endforeach
                 @endforeach
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ url('/others') }}" id="others"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Other pages</a>
+                    <div class="dropdown-menu" aria-labelledby="others">
+                        
+                        <a class="dropdown-item" href="{{ url('/others/filter') }}">filter</a>
+                        <a class="dropdown-item" href="{{ url('/others/banners') }}">banners</a>
+                        <a class="dropdown-item" href="{{ url('/others/features') }}">features</a>
+                        <a class="dropdown-item" href="{{ url('/others/forms') }}">forms</a>
+                        <a class="dropdown-item" href="{{ url('/others/itemside') }}">itemside</a>
+                        
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

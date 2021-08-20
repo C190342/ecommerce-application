@@ -6,7 +6,7 @@
   <div class="container">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="#">Home</a></li>
-			<li class="breadcrumb-item"><a href="#">Category name</a></li>
+			<li class="breadcrumb-item"><a href="#">All Category</a></li>
 			<li class="breadcrumb-item"><a href="#">Sub category</a></li>
 			<li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
 		</ol>
@@ -130,7 +130,8 @@
 								<dl class="dlist-inline">
 									<dt>Quantity: </dt>
 									<dd>
-										<input class="form-control" type="number" min="1" value="1" max="{{ $product->quantity }}" name="qty" style="width:70px;">
+										
+										<input class="form-control form-control-sm" type="number" min="1" value="1" max="{{ $product->quantity }}" name="qty" style="width:70px;">
 										<input type="hidden" name="productId" value="{{ $product->id }}">
 										<input type="hidden" name="price" id="finalPrice" value="{{ $product->sale_price != '' ? $product->sale_price : $product->price }}">
 									</dd>

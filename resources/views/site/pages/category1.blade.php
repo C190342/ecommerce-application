@@ -74,14 +74,14 @@
                     </figure>
                 </div> <!-- col.// -->
             @empty
-                <div class="mb-4 col-md-4">
+                <div class="mb-3 col-md-4">
                     <p>No Products found in {{ $category->name }}.</p>
                 </div>
             @endforelse
             </div> <!-- row end.// -->
 
             <div class="row">
-                <nav class="mb-4 col-md-4" aria-label="Page navigation sample">
+                <nav class="mb-3 col-md-4" aria-label="Page navigation sample">
                     <ul class="pagination">
                         <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
