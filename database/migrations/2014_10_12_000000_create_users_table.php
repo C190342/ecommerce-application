@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('zip')->nullable();
             $table->string('phone', 13)->nullable();
             $table->string('avatar')->nullable();
+            $table->boolean('gender')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,12 +2,12 @@
 <section class="header-main border-bottom">
 	<div class="container">
 		<div class="row align-items-center">
-			<div class="col-xl-2 col-lg-3 col-md-12">
+			<div class="col-xl-3 col-lg-3 col-md-12">
 				<a href="{{ url('/') }}" class="brand-wrap">
 					<img class="logo" src="{{ asset('frontend/images/logo1.png') }}">
 				</a> <!-- brand-wrap.// -->
 			</div>
-			<div class="col-xl-6 col-lg-5 col-md-6">
+			<div class="col-xl-6 col-lg-5 col-md-7">
 				<form action="#" class="search-header">
 					<div class="input-group w-100">
 						<select class="custom-select border-right"  name="category_name">
@@ -30,7 +30,7 @@
 				    </div>
 				</form> <!-- search-wrap .end// -->
 			</div> <!-- col.// -->
-			<div class="col-xl-4 col-lg-4 col-md-6">
+			<div class="col-xl-3 col-lg-4 col-md-5">
 				<div class="widgets-wrap float-md-right">
                     
 					<div class="widget-header mr-3">
@@ -81,16 +81,6 @@
 								<span class="notify">0</span>
 							</div>
 							<small class="text"> Message </small>
-						</a>
-					</div>
-
-					<div class="widget-header mr-3">
-						<a href="{{ route('account.orders') }}" class="widget-view">
-							<div class="icon-area">
-								<i class="fa fa-store"></i>
-								<span class="notify">{{ $orderCount }}</span>
-							</div>
-							<small class="text"> Orders </small>
 						</a>
 					</div>
 

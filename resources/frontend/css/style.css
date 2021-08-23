@@ -35,3 +35,19 @@ p.hr {
 .hidden-print:hover i{
     color: #ff6a00;
 }
+#main_nav .navbar-nav .nav-item a, #main_nav .navbar-nav .nav-item a {
+    font-weight: bold !important;
+}
+#main_nav .navbar-nav .nav-item:hover, #main_nav .navbar-nav .nav-item.active {
+    border-bottom:2px solid #ff6a00 !important;
+}
+#main_nav .navbar-nav .nav-item:hover>a, #main_nav .navbar-nav .nav-item.active>a {
+    color: #ff6a00;
+}
+#main_nav .navbar-nav .dropdown a.dropdown-item:hover {
+    color: #ff6a00;
+    background-color: #F2F3F7;
+}
+.breadcrumb-item {
+    font-weight: bold !important;
+}

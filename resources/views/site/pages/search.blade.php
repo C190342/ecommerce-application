@@ -1,6 +1,5 @@
 @extends('site.app')
-@section('title', 'Homepage')
-
+@section('title', 'Search')
 @section('content')
     <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">

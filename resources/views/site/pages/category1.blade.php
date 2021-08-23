@@ -10,9 +10,13 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <ol class="breadcrumb float-left">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">All Category</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/')}}">Home</a></li>
+                        @if($category->parent_id == 1)
                         <li class="breadcrumb-item active">{{ $category->name }}</li>
+                        @else
+                        <li class="breadcrumb-item"><a href="{{ route('category.show', $category->parent->slug) }}">{{ $category->parent->name }}</a></li>
+                        <li class="breadcrumb-item active">{{ $category->name }}</li>
+                        @endif
                     </ol>
                 </div> <!-- card-body .// -->
             </div> <!-- card.// -->

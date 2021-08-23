@@ -54,11 +54,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'image'     =>  ['mimes:jpg,jpeg,png|max:1000'],
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name'  => ['required', 'string', 'max:50'],
+            'email'      => ['required', 'string', 'email', 'max:191', 'unique:users'],
+            'password'   => ['required', 'string', 'min:8', 'confirmed'],
+            'zip'        => ['numeric', 'max:9999999'],
+            'checkbox'   => ['required']
         ]);
     }
 
@@ -70,24 +71,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $avatar = null;
-        $request = app('request');
-        if($request->hasfile('avatar')){
-            $avatar = $this->uploadOne($data['avatar'], 'users/avatar');
-        }
-        Log::info($avatar);
-        
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'gender' => $data['gender'],
+            'zip' => $data['zip'],
             'address' => $data['address'],
             'city' => $data['city'],
             'country' => $data['country'],
-            'avatar' => $avatar,
-            'zip' => $data['zip'],
-            'phone' => $data['phone'],
+            'password' => Hash::make($data['password']),
             'created_at' => Carbon::now(),
         ]);
     }

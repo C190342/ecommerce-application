@@ -1053,3 +1053,7 @@ https://bootstrap-ecommerce.com/templates/alistyle-html/page-components.html
 https://bootstrap-ecommerce.com/templates/alistyle-html/page-category.html
 
 https://gwdesk.nisso.co.jp/cgi-bin/dneo/zcreport.cgi?cmd=creportindex&log=on#folder=-2&cmd=creportcmddisppage&id=49256
+
+
+local-scopes
+

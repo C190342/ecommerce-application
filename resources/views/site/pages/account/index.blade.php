@@ -34,15 +34,6 @@
                             
                             <div class="form-row">
                                 <div class="col form-group">
-                                    <label>First Name</label>
-                                    <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ $profile->first_name }}">
-                                    @error('first_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div> <!-- form-group end.// -->
-                                <div class="col form-group">
                                     <label>Last Name</label>
                                     <input type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" id="last_name" value="{{ $profile->last_name }}">
                                     @error('last_name')
@@ -51,8 +42,26 @@
                                         </span>
                                     @enderror
                                 </div> <!-- form-group end.// -->
+                                <div class="col form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ $profile->first_name }}">
+                                    @error('first_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div> <!-- form-group end.// -->
                             </div> <!-- form-row.// -->
-
+                            <div class="form-group">
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input class="custom-control-input" type="radio" name="gender" value="0" {{ ($profile->gender == 0 ? 'checked' : '') }}>
+                                    <span class="custom-control-label"> Male </span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input class="custom-control-input" type="radio" name="gender" value="1" {{ ($profile->gender == 1 ? 'checked' : '') }}>
+                                    <span class="custom-control-label"> Female </span>
+                                </label>
+                            </div> <!-- form-group end.// -->
                             <div class="form-row">
                                 <div class="col form-group">
                                     <label>Email</label>
@@ -71,6 +80,27 @@
                             </div> <!-- form-row.// -->
 
                             <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="phone" value="{{ $profile->phone }}">
+                                    @error('phone')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div> <!-- form-group end.// -->
+                                <div class="form-group col-md-6">
+                                    <label>Zip</label>
+                                    <input type="text" class="form-control @error('zip') is-invalid @enderror" name="zip" id="zip" value="{{ $profile->zip }}">
+                                    @error('zip')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div> <!-- form-group end.// -->
+                            </div> <!-- form-row.// -->
+
+                            <div class="form-row">
                                 <div class="col form-group">
                                     <label>Address</label>
                                         <input type="text" class="form-control" name="address" id="address" value="{{ $profile->address }}">
@@ -78,6 +108,10 @@
                             </div> <!-- form-row.// -->
                             
                             <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>City</label>
+                                    <input type="text" class="form-control" name="city" id="city" value="{{ $profile->city }}">
+                                </div> <!-- form-group end.// -->
                                 <div class="form-group col-md-6">
                                     <label>Country</label>
                                     <select id="country" name="country" class="form-control">
@@ -100,32 +134,8 @@
                                         @endforeach
                                     </select>
                                 </div> <!-- form-group end.// -->
-                                <div class="form-group col-md-6">
-                                <label>City</label>
-                                <input type="text" class="form-control" name="city" id="city" value="{{ $profile->city }}">
-                                </div> <!-- form-group end.// -->
                             </div> <!-- form-row.// -->
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                <label>Zip</label>
-                                <input type="text" class="form-control @error('zip') is-invalid @enderror" name="zip" id="zip" value="{{ $profile->zip }}">
-                                    @error('zip')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div> <!-- form-group end.// -->
-                                <div class="form-group col-md-6">
-                                <label>Phone</label>
-                                <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="phone" value="{{ $profile->phone }}">
-                                    @error('phone')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div> <!-- form-group end.// -->
-                            </div> <!-- form-row.// -->
 
                             <button class="btn btn-primary" type="submit" >Save</button>
 
@@ -136,7 +146,11 @@
                             @if ($profile->avatar != '')
                                 <img src="{{ asset('storage/'.$profile->avatar) }}" class="img-md rounded-circle border">
                             @else
-                                <img class="img-md rounded-circle border" src="https://via.placeholder.com/176" style="height: 150px; width: 150px;">
+                                @if($profile->gender == 0)
+                                    <img class="img-md rounded-circle border" src="{{ asset('frontend/images/avatars/iavatar_male.jpg') }}" style="height: 150px; width: 150px;">
+                                @else
+                                    <img class="img-md rounded-circle border" src="{{ asset('frontend/images/avatars/iavatar_female.jpg') }}" style="height: 150px; width: 150px;">
+                                @endif
                             @endif
 
                         </div>  <!-- col.// -->

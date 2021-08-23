@@ -30,9 +30,9 @@ class AccountController extends Controller
         
         foreach ($orders as $order) {
             foreach ($order->items as $item) {
-                Log::error($item->product);
-                Log::error('$item->product');
-                Log::error($item->attributes);
+                //Log::error($item->product);
+               // Log::error('$item->product');
+                //Log::error($item->attributes);
             }
         }
         
@@ -62,17 +62,17 @@ class AccountController extends Controller
     {
         $id = auth()->id();
         $profile = User::where('id', '=', $id)->first();
-        Log::warning('$id'.$id);
+        //Log::warning('$id'.$id);
         $this->validate($request, [
 
-            'first_name'     =>  'required|max:100',
             'last_name'      =>  'required|max:100',
+            'first_name'     =>  'required|max:100',
             'avatar'         =>  'mimes:jpg,jpeg,png|max:1000',
+            'phone'          =>  'required|max:13',
+            'zip'            =>  'max:7',
             'address'        =>  'required|max:191',
             'city'           =>  'required|max:100',
-            'zip'            =>  'max:7',
-            'country'        =>  'max:100',
-            'phone'          =>  'required|max:13'
+            'country'        =>  'max:100'
         ]);
         
         $avatar = $profile->avatar;
@@ -88,13 +88,15 @@ class AccountController extends Controller
 
         $profile = User::where('id', '=', $id)
                 ->update([
-                    'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
+                    'first_name' => $request->first_name,
+                    'gender' => $request->gender,
                     'avatar' => $avatar,
+                    'phone' => $request->phone,
+                    'zip' => $request->zip,
                     'address' => $request->address,
                     'city' => $request->city,
-                    'zip' => $request->zip,
-                    'phone' => $request->phone,
+                    'country' => $request->country,
                     'updated_at' => Carbon::now(),
                 
                 ]);
