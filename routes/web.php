@@ -23,14 +23,14 @@ Route::get('/', function () {
 */
 
 // home
-Route::view('/', 'site.pages.homepage');
+Route::get('/', 'Site\HomeController@index')->name('homepage');
 
 // category show route
 Route::get('/category/{slug}', 'Site\CategoryController@show')->name('category.show');
 
 // product show route
 Route::get('/product/{slug}', 'Site\ProductController@show')->name('product.show');
-Route::post('/product/add/cart', 'Site\ProductController@addToCart')->name('product.add.cart');
+Route::post('/product/add', 'Site\ProductController@addTo')->name('product.add');
 
 // search result
 //Route::get('/search/{slug}', 'Site\ProductController@search')->name('search.result');
@@ -41,14 +41,21 @@ Route::get('/cart', 'Site\CartController@getCart')->name('checkout.cart');
 Route::get('/cart/item/{id}/minus', 'Site\CartController@minusItem')->name('checkout.cart.minus');
 Route::get('/cart/item/{id}/plus', 'Site\CartController@plusItem')->name('checkout.cart.plus');
 Route::get('/cart/item/{id}/remove', 'Site\CartController@removeItem')->name('checkout.cart.remove');
+Route::get('/cart/item/switchToWishlist/{id}', 'Site\CartController@switchToWishlist')->name('checkout.cart.switchToWishlist');
 Route::get('/cart/clear', 'Site\CartController@clearCart')->name('checkout.cart.clear');
+
+Route::get('/wishlist', 'Site\WishlistController@index')->name('wishlist.index');
+Route::get('/wishlist/switchToCart/{id}', 'Site\WishlistController@switchToCart')->name('wishlist.switchToCart');
+Route::get('/wishlist/{id}/remove', 'Site\WishlistController@destroy')->name('wishlist.remove');
+Route::get('/wishlist/clear', 'Site\WishlistController@clearList')->name('wishlist.clear');
 
 // Auth
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/checkout', 'Site\CheckoutController@getCheckout')->name('checkout.index');
-    Route::post('/checkout/order', 'Site\CheckoutController@placeOrder')->name('checkout.place.order');
+    Route::post('/checkout/order', 'Site\CheckoutController@store')->name('checkout.place.order');
 
     Route::get('checkout/payment/complete', 'Site\CheckoutController@complete')->name('checkout.payment.complete');
+    Route::get('checkout/payment/failure', 'Site\CheckoutController@failure')->name('checkout.payment.failure');
 
     // categories route
     Route::group(['prefix'  =>   'account'], function() {

@@ -5,7 +5,7 @@
     <!-- ========================= SECTION PAGETOP ========================= -->
 <section class="section-pagetop bg-gray">
 <div class="container">
-	<h2 class="title-page">My account</h2>
+	<h2 class="title-page">My account: {{ $profile->fullname }}</h2>
 </div> <!-- container //  -->
 </section>
 <!-- ========================= SECTION PAGETOP END// ========================= -->
@@ -70,7 +70,7 @@
                                 </div> <!-- form-group end.// -->
                                 <div class="col form-group">
                                     <label>Avatar</label>
-                                    <input type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" id="avatar" value="{{ $profile->avatar }}">
+                                    <input type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" id="avatar" value="{{ old('avatar', $profile->avatar) }}">
                                     @error('avatar')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

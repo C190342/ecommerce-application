@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Darryldecode\Cart\Cart as CartCart;
+use Gloudemans\Shoppingcart\Cart as ShoppingcartCart;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
@@ -19,14 +21,14 @@ class CartController extends Controller
 
     public function removeItem($id)
     {
-        Cart::remove($id);
+        Cart::instance('default')->remove($id);
         
-        return redirect()->back()->with('message', 'Item removed from cart successfully.');
+        return redirect()->back()->with('message', 'Item has been removed!');
     }
 
     public function clearCart()
     {
-        Cart::clear();
+        Cart::instance('default')->destroy();
     
         return redirect('/');
     }
@@ -43,9 +45,9 @@ class CartController extends Controller
     public function updateCart($id)
     {
         $data = [
-            'quantity' => 2,
+            'qty' => 2,
         ];
-        Cart::update($id, $data);
+        Cart::instance('default')->update($id, $data);
     
         return redirect()->back()->with('message', 'cart updated successfully.');
     }
@@ -61,25 +63,23 @@ class CartController extends Controller
      */
     public function minusItem($id)
     {
-        $items = Cart::getContent();
+        $items = Cart::instance('default')->content();
         foreach($items as $item)
         {
-            if ($item->id == $id) {
-                $qty = $item->quantity;
+            if ($item->rowId == $id) {
+                $qty = $item->qty;
                 break;
             }
         }
-        Log::info($qty);
+        //Log::info($qty);
         if ($qty <= 1) {
-            return redirect()->back()->with('error', 'can not minus');
+            return redirect()->back()->with('error', 'item quantity was minimum');
         }
         else {
-            $data = [
-                'quantity' => -1,
-            ];
-            Cart::update($id, $data);
+            $qty = $qty - 1;
+            Cart::instance('default')->update($id, $qty); // Will update the quantity
         
-            return redirect()->back()->with('message', 'cart updated successfully.');
+            return redirect()->back()->with('message', 'Item quantity was changed!');
         }
     }
     
@@ -95,25 +95,54 @@ class CartController extends Controller
     public function plusItem($id)
     {
         
-        $items = Cart::getContent();
+        $items = Cart::instance('default')->content();
         foreach($items as $item)
         {
-            if ($item->id == $id) {
-                $qty = $item->quantity;
+            if ($item->rowId == $id) {
+                $qty = $item->qty;
                 break;
             }
         }
-        Log::info($qty);
-        if ($qty >= 100) {
-            return redirect()->back()->with('error', 'item quantity was not enought');
+        //Log::info($qty);
+        if ($qty >= $item->model->quantity) {
+            return redirect()->back()->with('error', 'item quantity was maximum');
         }
         else {
-            $data = [
-                'quantity' => 1,
-            ];
-            Cart::update($id, $data);
+
+            $qty = $qty + 1;
+            Cart::instance('default')->update($id, $qty); // Will update the quantity
         
-            return redirect()->back()->with('message', 'cart updated successfully.');
+            return redirect()->back()->with('message', 'Item quantity was changed!');
         }
     }
+
+    
+    /**
+     * Switch item for shopping cart to wish list
+     *
+     * @param int $id (the item ID)
+     * @return \Illuminate\Http\Response
+     *
+     */
+    public function switchToWishlist($id)
+    {
+        $item = Cart::instance('default')->get($id);
+        
+        $options = [];
+        if ($item->options != '') {
+            foreach ($item->options as $key => $value) {
+                $options = [$key => $value];
+            }
+        }
+        //Log::info($options);
+        Cart::instance('default')->remove($id);
+        
+        Cart::instance('wishlist')->add($item->id, $item->name, $item->image, $item->qty, $item->price, $options)
+            ->associate('App\Models\Product');
+
+        return redirect()->back()->with('message', 'Item has been moved to your Wish list!');
+    }
+
+
+
 }

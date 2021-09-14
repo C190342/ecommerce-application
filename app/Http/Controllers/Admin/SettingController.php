@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use App\Models\Setting;
-use FlashMessages;
 
 class SettingController extends BaseController
 {
@@ -40,7 +39,8 @@ class SettingController extends BaseController
             $logo = $this->uploadOne($request->file('site_logo'), 'settings'); // img
             Setting::set('site_logo', $logo);
     
-        } elseif ($request->has('site_favicon') && ($request->file('site_favicon') instanceof UploadedFile)) {
+        }
+        if ($request->has('site_favicon') && ($request->file('site_favicon') instanceof UploadedFile)) {
     
             if (config('settings.site_favicon') != null) {
                 $this->deleteOne(config('settings.site_favicon'));
@@ -48,7 +48,8 @@ class SettingController extends BaseController
             $favicon = $this->uploadOne($request->file('site_favicon'), 'settings'); // img
             Setting::set('site_favicon', $favicon);
     
-        } else {
+        }
+        else {
     
             $keys = $request->except('_token');
     

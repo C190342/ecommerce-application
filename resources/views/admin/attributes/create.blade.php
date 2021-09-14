@@ -47,15 +47,6 @@
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" for="frontend_type">Frontend Type</label>
-                                    @php $types = ['select' => 'Select Box', 'radio' => 'Radio Button', 'text' => 'Text Field', 'text_area' => 'Text Area']; @endphp
-                                    <select name="frontend_type" id="frontend_type" class="form-control">
-                                        @foreach($types as $key => $label)
-                                            <option value="{{ $key }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <div class="form-check">
                                         <label class="form-check-label">
                                             <input class="form-check-input" type="checkbox" id="is_filterable" name="is_filterable"/>Filterable

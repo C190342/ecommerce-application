@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Validation\Factory;
 
 class CategoriesTableSeeder extends Seeder
 {
@@ -22,7 +21,42 @@ class CategoriesTableSeeder extends Seeder
             'menu'          =>  0,
         ]);
 
+        Category::create([
+            'name'          =>  'Laptops',
+            'description'   =>  'This is the Laptops category, don\'t delete this one',
+            'parent_id'     =>  1,
+            'menu'          =>  1,
+            'featured'      =>  1,
+            'image'         =>  'categories/laptop.png',
+        ]);
+
+        Category::create([
+            'name'          =>  'Phones',
+            'description'   =>  'This is the Phones category, don\'t delete this one',
+            'parent_id'     =>  1,
+            'menu'          =>  1,
+            'featured'      =>  1,
+            'image'         =>  'categories/phone1.jpg',
+        ]);
+
+        Category::create([
+            'name'          =>  'Cameras',
+            'description'   =>  'This is the Cameras category, don\'t delete this one',
+            'parent_id'     =>  1,
+            'menu'          =>  1,
+            'featured'      =>  1,
+            'image'         =>  'categories/camera.png',
+        ]);
+
+        Category::create([
+            'name'          =>  'Accessories',
+            'description'   =>  'This is the Accessories category, don\'t delete this one',
+            'parent_id'     =>  1,
+            'menu'          =>  1,
+            'featured'      =>  1,
+        ]);
+
         // factory('App\Models\Category', 10)->create();
-        \App\Models\Category::factory()->count(5)->create(); 
+        //\App\Models\Category::factory()->count(5)->create(); 
     }
 }

@@ -54,6 +54,17 @@ class BaseRepository implements BaseContract
     {
         return $this->model->orderBy($orderBy, $sortBy)->get($columns);
     }
+    
+	/**
+	 * Paginate all
+	 * @param  integer $perPage
+	 * @param  array   $columns
+	 * @return \Illuminate\Pagination\Paginator          
+	 */
+	public function paginate($perPage = 16, $columns = array('*'))
+	{
+		return $this->model->paginate($perPage, $columns);
+	}
 
     /**
      * @param int $id

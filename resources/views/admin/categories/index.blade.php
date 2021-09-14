@@ -23,7 +23,6 @@
                                 <th class="text-center"> Parent </th>
                                 <th class="text-center"> Featured </th>
                                 <th class="text-center"> Menu </th>
-                                <th class="text-center"> Order </th>
                                 <th style="width:100px; min-width:100px;" class="text-center text-danger"><i class="fa fa-bolt"> </i></th>
                             </tr>
                         </thead>
@@ -48,9 +47,6 @@
                                             @else
                                                 <span class="badge badge-danger">No</span>
                                             @endif
-                                        </td>
-                                        <td class="text-center">
-                                            {{ $category->order }}
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group" aria-label="Second group">

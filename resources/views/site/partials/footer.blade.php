@@ -17,9 +17,9 @@
                     <ul class="list-unstyled">
                         <li> <a href="{{ route('login') }}"> User Login </a></li>
                         <li> <a href="{{ route('register') }}"> User register </a></li>
-                        <li> <a href="#"> Account Setting </a></li>
-                        <li> <a href="#"> My Orders </a></li>
-                        <li> <a href="#"> My Wishlist </a></li>
+                        <li> <a href="{{ route('account.profile') }}"> Account Setting </a></li>
+                        <li> <a href="{{ route('account.orders') }}"> My Orders </a></li>
+                        <li> <a href="{{ route('wishlist.index') }}"> My Wishlist </a></li>
                     </ul>
                 </aside>
                 <aside class="col-sm-3  col-md-3 white">

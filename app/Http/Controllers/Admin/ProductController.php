@@ -11,6 +11,7 @@ use App\Http\Requests\StoreProductFormRequest;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends BaseController
 {
@@ -69,6 +70,8 @@ class ProductController extends BaseController
         $brands = $this->brandRepository->listBrands('name', 'asc');
         $categories = $this->categoryRepository->listCategories('name', 'asc');
     
+        Log::info('$product edit');
+        Log::info($product);
         $this->setPageTitle('Products', 'Edit Product');
         return view('admin.products.edit', compact('categories', 'brands', 'product'));
     }
@@ -80,7 +83,8 @@ class ProductController extends BaseController
         $product = $this->productRepository->updateProduct($params);
 
         $msg = 'Product「'. $product->name . '」updated successfully';
-        
+        Log::info('$product');
+        Log::info($product);
         if (!$product) {
             return $this->responseRedirectBack('Error occurred while updating product.', 'error', true, true);
         }

@@ -6,7 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="main_nav">
             <ul class="navbar-nav">
-            @foreach($categories as $cat)
+                @foreach($categories as $cat)
                     @foreach($cat->items as $category)
                         @if ($category->items->count() > 0)
                             @foreach($category->items as $item)

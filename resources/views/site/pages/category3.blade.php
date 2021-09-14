@@ -109,9 +109,10 @@
                 </div>
             </div>
         </header><!-- sect-heading -->
-
+        
         <div class="row">
             @forelse($category->products as $product)
+                @if($product->status == 1)
                 <div class="col-md-3">
                     <figure class="card card-product-grid">
                         <div class="img-wrap"> 
@@ -151,7 +152,7 @@
                                     <span class="tag"> <i class="fa fa-check"></i> Verified</span> 
                                     <span class="tag"> 4 Years </span> 
                                     <span class="tag"> 60 reviews </span>
-                                    <span class="tag"> China </span>
+                                    <span class="tag"> {{ $product->brand->name }} </span>
                                 </p>
                             
                                 <label class="custom-control mb-3 custom-checkbox">
@@ -165,6 +166,12 @@
                         </figcaption>
                     </figure>
                 </div> <!-- col.// -->
+                
+                @else
+                <div class="mb-3 col-md-4">
+                    <p>No Products found in {{ $category->name }}.</p>
+                </div>
+                @endif
             @empty
                 <div class="mb-3 col-md-4">
                     <p>No Products found in {{ $category->name }}.</p>

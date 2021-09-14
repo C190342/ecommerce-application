@@ -25,13 +25,13 @@
                             <address><strong>{{ $order->user->fullName }}</strong><br>Email: {{ $order->user->email }}</address>
                         </div>
                         <div class="col-4">Ship To
-                            <address><strong>{{ $order->first_name }} {{ $order->last_name }}</strong><br>{{ $order->address }}<br>{{ $order->city }}, {{ $order->country }} {{ $order->post_code }}<br>{{ $order->phone_number }}<br></address>
+                            <address><strong>{{ $order->last_name }} {{ $order->first_name }} </strong><br>{{ $order->address }}<br>{{ $order->city }}, {{ $order->prefecture }}, {{ $order->country }} {{ $order->post_code }}<br>{{ $order->phone_number }}<br></address>
                         </div>
                         <div class="col-4">
                             <b>Order ID:</b> {{ $order->order_number }}<br>
-                            <b>Amount:</b> {{ config('settings.currency_symbol') }}{{ round($order->grand_total, 2) }}<br>
+                            <b>Amount:</b> {{ config('settings.currency_symbol') }}{{ number_format($order->grand_total) }}<br>
                             <b>Payment Method:</b> {{ $order->payment_method }}<br>
-                            <b>Payment Status:</b> {{ $order->payment_status == 1 ? 'Completed' : 'Not Completed' }}<br>
+                            <b>Payment Status:</b> {{ $order->payment_status == 1 ? 'Completed' : 'Not Complete' }}<br>
                             <b>Order Status:</b> {{ $order->status }}<br>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                             <td>{{ $item->product->name }}</td>
                                             <td>{{ $item->product->sku }}</td>
                                             <td>{{ $item->quantity }}</td>
-                                            <td>{{ config('settings.currency_symbol') }}{{ round($item->price, 2) }}</td>
+                                            <td>{{ config('settings.currency_symbol') }}{{ number_format($item->price) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -39,29 +39,101 @@
 							<div class="col-md-8 print-left">
 								<h6 class="text-muted">Delivery to</h6>
 								<p>Full name: {{ $order->last_name }} {{ $order->first_name }} <br>  
-								Phone: {{ $order->phone_number }} <br>
+								Phone: {{ $order->phone_number }} <br>	
 								Location: {{ $order->address }}, {{ $order->city }} <br> 
-								Country: {{ $order->country }} -- P.O. Box: {{ $order->post_code }}
+								Prefecture: {{ $order->prefecture }}  --  {{ $order->country }}<br> 
+								P.O. Box: {{ $order->post_code }}
 								</p>
 							</div>
 							<div class="col-md-4 print-right">
-								<h6 class="text-muted">Payment</h6>
-								<span class="text-success">
-									<i class="fab fa-lg fa-cc-visa"></i>
-									Visa  **** 4216  
-								</span>
-								<p>Subtotal: {{ config('settings.currency_symbol') }}356 <br>
-								Shipping fee:  {{ config('settings.currency_symbol') }}56 <br> 
-								<span class="b">Total: {{ config('settings.currency_symbol') }}{{ $order->grand_total }} </span><br>
-								Payment Status: <span class="b">@if ($order->payment_status == 1) <span class="text-success">Completed</span> @else <span class="text-danger">Not Complete</span> @endif </span><br>
-								Order Status: <span class="b">@if ($order->status == 'completed') <span class="text-success">{{ ucfirst($order->status) }}</span> @else <span class="primary-style">{{ ucfirst($order->status) }}</span> @endif </span><br>
-								</p>
+								<h6 class="text-muted">Order Summary</h6>
+								<dl class="dlist-align">
+									<dt>Item(s) Subtotal: </dt>
+									<dd class="text-right">{{ config('settings.currency_symbol') }}{{ number_format($order->sub_total) }}</dd>
+								</dl>
+								
+								<dl class="dlist-align">
+									<dt>Tax ({{ config('cart.tax') }}%): </dt>
+									<dd class="text-right">{{ config('settings.currency_symbol') }}{{ number_format($order->tax) }}</dd>
+								</dl>
+								
+								<dl class="dlist-align">
+									<dt>Shipping & Handling: </dt>
+									<dd class="text-right">{{ config('settings.currency_symbol') }}0</dd>
+								</dl>
+								
+								<dl class="dlist-align">
+									<dt>Total: </dt>
+									<dd class="text-right"><strong>{{ config('settings.currency_symbol') }}{{ number_format($order->grand_total) }}</strong></dd>
+								</dl>
+								
+								<dl class="dlist-align">
+									<dt>Promotion Applied: </dt>
+									<dd class="text-right">-{{ config('settings.currency_symbol') }}0</dd>
+								</dl>
+								
+								<dl class="dlist-align">
+									<dt>Grand Total: </dt>
+									<dd class="text-right"><strong>{{ config('settings.currency_symbol') }}{{ number_format($order->grand_total) }}</strong></dd>
+								</dl>
+								
 							</div>
 							<div class="clearfix"></div>
+							
+						</div> <!-- row.// -->
+						<div class="row print-position hr">
+							<div class="col-md-8 print-left">
+								<h6 class="text-muted">Payment method</h6>
+								<span class="text-success">
+									@if ($order->brand == 'visa')
+									<i class="fab fa-lg fa-cc-visa"></i>
+									@elseif ($order->brand == 'mastercard')
+									<i class="fab fa-lg fa-cc-mastercard"></i>
+									@elseif ($order->brand == 'jcb')
+									<i class="fab fa-lg fa-cc-jcb"></i>
+									@elseif ($order->brand == 'discover')
+									<i class="fab fa-lg fa-cc-discover"></i>
+									@elseif ($order->brand == 'amex')
+									<i class="fab fa-lg fa-cc-amex"></i>
+									@elseif ($order->brand == 'amex')
+									<i class="fab fa-lg fa-cc-amex"></i>
+									@elseif ($order->brand == 'diners')
+									<i class="fab fa-lg fa-cc-diners-club"></i>
+									@else
+									<i class="fas fa-lg fa-credit-card"></i>
+									@endif
+									{{ ucfirst($order->brand) }}  **** {{ $order->last4 }}
+								</span><br>
+								Expiration Date: {{ $order->exp_month }}/{{ $order->exp_year }}<br>
+								Name on card: {{ $order->name_on_card }}<br>
+								Payment Status: 
+									<span class="b">
+										@if ($order->payment_status == 1) <span class="text-success">Completed</span> 
+										@else <span class="text-danger">Not Complete</span> 
+										@endif </span><br>
+								@if ( $order->error != '')
+								Error: <span class="b">{{ $order->error }}</span>
+								@endif
+							</div>
+							
+							<div class="col-md-4 print-right">
+								<h6 class="text-muted">Order status</h6>
+								Shipping Status: @if ($order->shipped == 0) N/A @else shipped @endif<br>
+								Delivered: {{ format_dtime($order->delivered, 'Y/m/d H:i:s' ) }}<br>
+								Order Status: 
+									<span class="b">
+										@if ($order->status == 'completed') <span class="text-success">{{ ucfirst($order->status) }}</span> 
+										@elseif ($order->status == 'decline') <span class="text-danger">{{ ucfirst($order->status) }}</span> 
+										@else <span class="primary-style">{{ ucfirst($order->status) }}</span> 
+										@endif </span><br>
+								
+							</div>
+							<div class="clearfix"></div>
+
 							@if ($order->notes != '')
 							<p class="col-md-12 hr"><span class="b">Note:</span> {{ $order->notes }}</p>
 							@endif
-						</div> <!-- row.// -->
+						</div><!-- row.// -->
 					</div> <!-- card-body .// -->
 					<div class="table-responsive">
 						<table class="table table-hover">
@@ -78,7 +150,15 @@
 									</td>
 									<td> 
 										<p class="title mb-0"><span class="b">{{ Str::words($item->product->name,20) }} </span></p>
-										<var class="price text-muted">{{ config('settings.currency_symbol') }} {{ round(($item->price/$item->quantity), 2) }}</var>
+										<var class="price text-muted">{{ config('settings.currency_symbol') }} {{ number_format(round(($item->price/$item->quantity), 2)) }}</var>
+										@if($item->attributes != '')
+										@php
+											$attributes = json_decode($item->attributes);
+										@endphp
+										@foreach($attributes as $key => $value)
+											<br><var class="price text-muted">{{ $key }}: {{ $value }}</var>
+										@endforeach
+										@endif
 										
 									</td>
 									<td class="text-center"> Quantity <br> {{ $item->quantity }} </td>

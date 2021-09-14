@@ -64,5 +64,16 @@
                 <span class="app-menu__label">Products</span>
             </a>
         </li>
+        <li>
+            <a class="app-menu__item 
+            @if(Route::currentRouteName() == 'admin.slides.index') active
+            @elseif(Route::currentRouteName() == 'admin.slides.create') active
+            @elseif(Route::currentRouteName() == 'admin.slides.edit') active
+            @else
+            @endif" href="{{ route('admin.slides.index') }}">
+                <i class="app-menu__icon fa fa-picture-o"></i>
+                <span class="app-menu__label">Slides</span>
+            </a>
+        </li>
     </ul>
 </aside>

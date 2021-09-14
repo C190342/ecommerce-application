@@ -27,14 +27,7 @@ class AccountController extends Controller
     {
         $id = auth()->user()->id;
         $orders = $this->orderRepository->findOrdersByUser($id);
-        
-        foreach ($orders as $order) {
-            foreach ($order->items as $item) {
-                //Log::error($item->product);
-               // Log::error('$item->product');
-                //Log::error($item->attributes);
-            }
-        }
+        //Log::info($orders);
         
         //$order = $this->orderRepository->findOrderByNumber($orderNumber);
 
@@ -48,7 +41,7 @@ class AccountController extends Controller
         // Log::warning($profile);
         // Retrieve the currently authenticated user's ID...
         $id = auth()->id();
-        $profile = User::where('id', '=', $id)->first();
+        $profile = User::where('id', $id)->first();
         
         return view('site.pages.account.index', compact('profile', $profile));
     }
@@ -61,7 +54,7 @@ class AccountController extends Controller
     public function updateProfile(Request $request)
     {
         $id = auth()->id();
-        $profile = User::where('id', '=', $id)->first();
+        $profile = User::where('id', $id)->first();
         //Log::warning('$id'.$id);
         $this->validate($request, [
 
@@ -97,7 +90,6 @@ class AccountController extends Controller
                     'address' => $request->address,
                     'city' => $request->city,
                     'country' => $request->country,
-                    'updated_at' => Carbon::now(),
                 
                 ]);
         return redirect()->back()->with('message', 'profile updated successfully.');

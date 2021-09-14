@@ -5,10 +5,15 @@
 <section class="py-3 bg-light">
   <div class="container">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="#">Home</a></li>
-			<li class="breadcrumb-item"><a href="#">All Category</a></li>
-			<li class="breadcrumb-item"><a href="#">Sub category</a></li>
+			<li class="breadcrumb-item"><a href="{{ url('/')}}">Home</a></li>
+			@if($category->parent_id == 1)
+			<li class="breadcrumb-item"><a href="{{ route('category.show', $category->slug) }}">{{ $category->name }}</a></li>
 			<li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
+			@else
+			<li class="breadcrumb-item">{{ $category->parent->name }}</li>
+			<li class="breadcrumb-item"><a href="{{ route('category.show', $category->slug) }}">{{ $category->name }}</a></li>
+			<li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
+			@endif
 		</ol>
   </div>
 </section>
@@ -16,7 +21,16 @@
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content bg-white padding-y">
 	<div class="container">
-
+		<div class="row mb-3">
+			<div class="col-sm-12">
+				@if (Session::has('message'))
+					<p class="alert alert-success">{{ Session::get('message') }}</p>
+				@endif
+				@if (Session::has('error'))
+					<p class="alert alert-danger">{{ Session::get('error') }}</p>
+				@endif
+			</div>
+		</div>
 	<!-- ============================ ITEM DETAIL ======================== -->
 		<div class="row">
 			<aside class="col-md-6">
@@ -24,15 +38,16 @@
 					<article class="gallery-wrap"> 
 						<div class="img-big-wrap">
 							@if ($product->images->count() > 0)
-								<div> <a href="{{ asset('storage/'.$product->images->first()->full) }}"><img src="{{ asset('storage/'.$product->images->first()->full) }}"></a></div>
+								<!-- Expanded image -->
+								<div id="expandedDiv"> <a class="fancybox" href="{{ asset('storage/'.$product->images->first()->full) }}" title="" target="_blank"><img src="{{ asset('storage/'.$product->images->first()->full) }}"></a></div>
 							@else
-								<div> <a href="#"><img src="https://via.placeholder.com/176"></a></div>
+								<div> <img src="https://via.placeholder.com/176"></div>
 							@endif
 						</div> <!-- slider-product.// -->
 						@if ($product->images->count() > 0)
 							<div class="thumbs-wrap">
 							@foreach($product->images as $image)
-								<a href="#" class="item-thumb"> <img src="{{ asset('storage/'.$image->full) }}"></a>
+								<div class="item-thumb"> <img src="{{ asset('storage/'.$image->full) }}" onclick="myGallery(this);"></div>
 							@endforeach
 							</div> <!-- slider-nav.// -->
 						@endif
@@ -43,7 +58,7 @@
 			<main class="col-md-6">
 				<article class="product-info-aside">
 
-					<h2 class="title mt-3">{{ $product->name }} </h2>
+					<h2 class="title mt-3">{{ $product->name }}</h2>
 
 					<div class="rating-wrap my-3">
 						<ul class="rating-stars">
@@ -71,35 +86,12 @@
 						@endif
 					</div> <!-- price-detail-wrap .// -->
 
-					<p>Compact sport shoe for running, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat </p>
-
-
-					<dl class="row">
-					<dt class="col-sm-3">Manufacturer</dt>
-					<dd class="col-sm-9"><a href="#">Great textile Ltd.</a></dd>
-
-					<dt class="col-sm-3">Article number</dt>
-					<dd class="col-sm-9">596 065</dd>
-
-					<dt class="col-sm-3">Guarantee</dt>
-					<dd class="col-sm-9">2 year</dd>
-
-					<dt class="col-sm-3">Delivery time</dt>
-					<dd class="col-sm-9">3-4 days</dd>
-
-					<dt class="col-sm-3">Availabilty</dt>
-					<dd class="col-sm-9">in Stock</dd>
-					</dl>
+					{!! $product->overview !!}
 
 					
 						
 					<hr>
-					<form action="{{ route('product.add.cart') }}" method="POST" role="form" id="addToCart">
+					<form method="POST" role="form" id="addToCart" action="{{ route('product.add') }}">
 						@csrf
 
 						<div class="form-row mt-3">
@@ -140,8 +132,11 @@
 						</div>
 
 						<div class="form-row mt-3">
-							<button type="submit" class="btn  btn-primary"> 
+							<button type="submit" class="btn  btn-primary" name="addTo" value="cart"> 
 								<i class="fas fa-shopping-cart"></i> <span class="text">Add to cart</span> 
+							</button>
+							<button type="submit" class="btn  btn-danger ml-2" name="addTo" value="wishlist"> 
+								<i class="fas fa-heart"></i> <span class="text">Add to wishlist</span> 
 							</button>
 							<!--
 							<div class="form-group col-md flex-grow-0">
@@ -168,6 +163,16 @@
 						</div> <!-- row.// -->
 					</form> <!-- form.// -->
 
+					<!-- The Modal -->
+					<div id="myModal" class="modal">
+						<!-- Modal content -->
+						<div class="modal-content">
+							<span class="close_popup_show">&times;</span>
+							<p>Please select an option</p>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
 				</article> <!-- product-info-aside .// -->
 			</main> <!-- col.// -->
 		</div> <!-- row.// -->
@@ -181,114 +186,81 @@
 
 <!-- ========================= SECTION  ========================= -->
 <section class="section-name padding-y bg">
-<div class="container">
+	<div class="container">
 
-<div class="row">
-	<div class="col-md-8">
-		<ul class="nav nav-tabs">
-			<li class="nav-item">
-				<a class="nav-link active" data-toggle="tab" href="#description">Description</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#specifications">Specifications</a>
-			</li>
-		</ul>
-
-		<!-- Tab panes -->
-		<div class="tab-content card card-body">
-			<div class="tab-pane container active" id="description">
-				<h5 class="title-description">Description</h5>
-				<p>
-					Lava stone grill, suitable for natural gas, with cast-iron cooking grid, piezo ignition, stainless steel burners, water tank, and thermocouple. Thermostatic adjustable per zone. Comes complete with lava rocks. Adjustable legs. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. 
-				</p>
-				<ul class="list-check">
-					<li>Material: Stainless steel</li>
-					<li>Weight: 82kg</li>
-					<li>built-in drip tray</li>
-					<li>Open base for pots and pans</li>
-					<li>On request available in propane execution</li>
+		<div class="row">
+			<div class="col-md-8">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#description">Description</a>
+					</li>
+					@if( $product->specification != '')
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#specifications">Specifications</a>
+					</li>
+					@endif
 				</ul>
-			</div>
-			<div class="tab-pane container fade" id="specifications">
+
+				<!-- Tab panes -->
+				<div class="tab-content card card-body">
+					<div class="tab-pane container active" id="description">
+						{!! $product->description !!}
+					</div>
+					@if( $product->specification != '')
+					<div class="tab-pane container fade" id="specifications">
+						{!! $product->specification !!}
+					</div>
+					@endif
+				</div>
+
+			</div> <!-- col.// -->
+			
+			<aside class="col-md-4">
+
+				<div class="box">
+					<h5 class="title-description">Related Products</h5>
+			
+					@foreach($related_products as $r_product)
+					<article class="media mb-3">
+						<a href="{{ route('product.show', $r_product->slug) }}">
+						@if ($r_product->image != '')
+							<img class="img-sm mr-3" src="{{ asset('storage/'.$r_product->image) }}" alt="{{ $r_product->name }}">
+						@else
+							<img class="img-sm mr-3" src="{{ asset('frontend/images/noimage.jpg') }}" alt="{{ $r_product->name }}">
+						@endif
+						</a>
+						<div class="media-body">
+							<h6 class="mt-0"><a href="{{ route('product.show', $r_product->slug) }}">{{ $r_product->name }}</a></h6>
+							<p class="mb-2">{{ $r_product->summary }}</p>
+						</div>
+					</article>
+					@endforeach
+
+
+					<h5 class="title-description">Best Seller Products</h5>
+			
+					@foreach($popular_products as $p_product)
+					<article class="media mb-3">
+						<a href="{{ route('product.show', $p_product->slug) }}">
+						@if ($p_product->image != '')
+							<img class="img-sm mr-3" src="{{ asset('storage/'.$p_product->image) }}" alt="{{ $p_product->name }}">
+						@else
+							<img class="img-sm mr-3" src="{{ asset('frontend/images/noimage.jpg') }}" alt="{{ $p_product->name }}">
+						@endif
+						</a>
+						<div class="media-body">
+							<h6 class="mt-0"><a href="{{ route('product.show', $p_product->slug) }}">{{ $p_product->name }}</a></h6>
+							<p class="mb-2">{{ Str::words($p_product->description,20) }}</p>
+						</div>
+					</article>
+					@endforeach
+
 				
-				<h5 class="title-description">Specifications</h5>
-				<table class="table table-bordered">
-					<tr> <th colspan="2">Basic specs</th> </tr>
-					<tr> <td>Type of energy</td><td>Lava stone</td> </tr>
-					<tr> <td>Number of zones</td><td>2</td> </tr>
-					<tr> <td>Automatic connection	</td> <td> <i class="fa fa-check text-success"></i> Yes </td></tr>
+				</div> <!-- box.// -->
+			</aside> <!-- col.// -->
+		</div> <!-- row.// -->
 
-					<tr> <th colspan="2">Dimensions</th> </tr>
-					<tr> <td>Width</td><td>500mm</td> </tr>
-					<tr> <td>Depth</td><td>400mm</td> </tr>
-					<tr> <td>Height	</td><td>700mm</td> </tr>
-
-					<tr> <th colspan="2">Materials</th> </tr>
-					<tr> <td>Exterior</td><td>Stainless steel</td> </tr>
-					<tr> <td>Interior</td><td>Iron</td> </tr>
-
-					<tr> <th colspan="2">Connections</th> </tr>
-					<tr> <td>Heating Type</td><td>Gas</td> </tr>
-					<tr> <td>Connected load gas</td><td>15 Kw</td> </tr>
-
-				</table>
-
-			</div>
-		</div>
-
-	</div> <!-- col.// -->
-	
-	<aside class="col-md-4">
-
-		<div class="box">
-		
-		<h5 class="title-description">Files</h5>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-
-    <h5 class="title-description">Videos</h5>
-      
-
-    <article class="media mb-3">
-      <a href="#"><img class="img-sm mr-3" src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/posts/3.jpg"></a>
-      <div class="media-body">
-        <h6 class="mt-0"><a href="#">How to use this item</a></h6>
-        <p class="mb-2"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin </p>
-      </div>
-    </article>
-
-    <article class="media mb-3">
-      <a href="#"><img class="img-sm mr-3" src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/posts/2.jpg"></a>
-      <div class="media-body">
-        <h6 class="mt-0"><a href="#">New tips and tricks</a></h6>
-        <p class="mb-2"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin </p>
-      </div>
-    </article>
-
-    <article class="media mb-3">
-      <a href="#"><img class="img-sm mr-3" src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/posts/1.jpg"></a>
-      <div class="media-body">
-        <h6 class="mt-0"><a href="#">New tips and tricks</a></h6>
-        <p class="mb-2"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin </p>
-      </div>
-    </article>
-
-
-		
-	</div> <!-- box.// -->
-	</aside> <!-- col.// -->
-</div> <!-- row.// -->
-
-</div> <!-- container .//  -->
+	</div> <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
@@ -322,13 +294,16 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
+			$('.fancybox').fancybox();
+
             $('#addToCart').submit(function (e) {
 				var elements = document.getElementsByClassName('option');
 				
 				for (value of elements) {
 				　	if ($(value).val() == 0) {
 						e.preventDefault();
-						alert('Please select an option');
+						popup_show();
+						//alert('Please select an option');
 						break;
 					}
 				}
@@ -336,15 +311,61 @@
             });
 			
             $('.option').change(function () {
-				let productPrice = document.getElementById('productPrice');
-
-				let extraPrice = $(this).find(':selected').data('price');
-                let price = parseFloat(productPrice.innerHTML);
-				
+                $('#productPrice').html("{{ $product->sale_price != '' ? $product->sale_price : $product->price }}");
+                let extraPrice = $(this).find(':selected').data('price');
+                let price = parseFloat($('#productPrice').html());
                 let finalPrice = (Number(extraPrice) + price).toFixed(2);
                 $('#finalPrice').val(finalPrice);
-                $(productPrice).html(finalPrice);
+                $('#productPrice').html(finalPrice);
             });
         });
+		
+		function popup_show(){
+			// Get the modal
+			var modal = document.getElementById("myModal");
+			// Get the modal-content
+			//var content = document.getElementsByClassName("modal-content")[0];
+			// set message
+			//$(content).find('p')[0].text($mess);
+			// Get the button that opens the modal
+			//var btn = document.getElementById("myBtn");
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close_popup_show")[0];
+
+			// When the user clicks on the button, open the modal
+			/*
+			btn.onclick = function() {
+				modal.style.display = "block";
+			}
+			*/
+
+			modal.style.display = "block";
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			}
+		}
+
+		function myGallery(imgs) {
+			// Get the expanded image div
+			//var expandImg = document.getElementById("expandedImg");
+			var expandImg = $('#expandedDiv').find('img');
+			var expandA = $('#expandedDiv').find('a');
+			// Use the same src in the expanded image as the image being clicked on from the grid
+			expandImg[0].src = imgs.src;
+			expandA[0].href = imgs.src;
+			// Show the container element (hidden with CSS)
+			expandImg[0].parentElement.style.display = "block";
+		}
+		document.addEventListener('touchstart', function() {}, {passive: true});
     </script>
 @endpush

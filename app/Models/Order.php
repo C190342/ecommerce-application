@@ -12,8 +12,9 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'order_number', 'user_id', 'status', 'grand_total', 'item_count', 'payment_status', 'payment_method',
-        'first_name', 'last_name', 'address', 'city', 'country', 'post_code', 'phone_number', 'notes'
+        'order_number', 'user_id', 'status', 'tax', 'sub_total', 'grand_total', 'item_count', 
+        'name_on_card','payment_status', 'payment_method', 'shipped', 'delivered', 'error',
+        'first_name', 'last_name', 'address', 'city', 'prefecture', 'country', 'post_code', 'phone_number', 'notes'
     ];
 
     public function user()
@@ -24,5 +25,10 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class)->withPivot('quantity');
     }
 }

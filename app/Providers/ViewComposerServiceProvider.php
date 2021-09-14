@@ -6,9 +6,9 @@ use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Cart;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -40,7 +40,11 @@ class ViewComposerServiceProvider extends ServiceProvider
             if ($user){
                 $id = $user['id'];
             }
-            $view->with('cartCount', Cart::getContent()->count());
+
+            $view->with('cartCount', Cart::instance('default')->count());
+            
+            $view->with('wishListCount', Cart::instance('wishlist')->count());
+
             $orderlist = DB::table('orders')
                         ->where('user_id', '=', $id)
                         ->where('status', '!=', 'completed')

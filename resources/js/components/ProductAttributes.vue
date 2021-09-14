@@ -152,7 +152,7 @@
                 this.currentPrice = value.price;
             },
             addProductAttribute() {
-                if (this.currentQty == null || this.currentPrice === null) {
+                if (this.currentQty == null) {
                     swalButtons.fire({
                         title: 'Invalid Value',
                         text: 'Some values are missing.',

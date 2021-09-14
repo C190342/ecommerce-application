@@ -54,7 +54,7 @@
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         <div class="icon-area">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-user-circle"></i>
                                         </div>
 							            <small class="text"> My profile </small>
                                     </a>
@@ -75,12 +75,14 @@
 					</div>
 					
 					<div class="widget-header mr-3">
-						<a href="#" class="widget-view">
+						<a href="{{ route('wishlist.index') }}" class="widget-view">
 							<div class="icon-area">
-								<i class="fa fa-comment-dots"></i>
-								<span class="notify">0</span>
+								<i class="fa fa-heart"></i>
+								@if( $wishListCount > 0 )
+								<span class="notify">{{ $wishListCount }}</span>
+								@endif
 							</div>
-							<small class="text"> Message </small>
+							<small class="text"> Wishlist </small>
 						</a>
 					</div>
 
@@ -88,7 +90,9 @@
 						<a href="{{ route('checkout.cart') }}" class="widget-view">
 							<div class="icon-area">
 								<i class="fa fa-shopping-cart"></i>
+								@if ( $cartCount > 0 )
 								<span class="notify">{{ $cartCount }}</span>
+								@endif
 							</div>
 							<small class="text"> Cart </small>
 						</a>

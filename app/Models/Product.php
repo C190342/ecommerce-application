@@ -20,8 +20,10 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'brand_id', 'sku', 'name', 'slug', 'description', 'quantity',
-        'weight', 'price', 'sale_price', 'status', 'featured',
+        'brand_id', 'sku', 'name', 'slug', 'summary',
+        'overview', 'description', 'specification',
+        'quantity', 'shipping_fee',
+        'price', 'sale_price', 'status', 'featured',
     ];
 
     /**
@@ -41,6 +43,17 @@ class Product extends Model
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+    
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $type)
+    {
+        return $query->where('status', $type);
     }
 
 
@@ -75,4 +88,6 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id');
     }
+    
+
 }

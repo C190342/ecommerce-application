@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>@yield('title') - {{ $settings["site_name"] }}</title>
     @include('site.partials.styles')
+    @include('site.partials.scripts')
 </head>
 <body>
     

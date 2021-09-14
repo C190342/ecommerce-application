@@ -91,6 +91,18 @@ Route::group(['prefix'  =>  'admin'], function () {
             Route::get('/{order}/show', 'Admin\OrderController@show')->name('admin.orders.show');
         });
 
+        // slides route
+        Route::group(['prefix'  =>   'slides'], function() {
+
+            Route::get('/', 'Admin\SlideController@index')->name('admin.slides.index');
+            Route::get('/create', 'Admin\SlideController@create')->name('admin.slides.create');
+            Route::post('/store', 'Admin\SlideController@store')->name('admin.slides.store');
+            Route::get('/{id}/edit', 'Admin\SlideController@edit')->name('admin.slides.edit');
+            Route::post('/update', 'Admin\SlideController@update')->name('admin.slides.update');
+            Route::get('/{id}/delete', 'Admin\SlideController@delete')->name('admin.slides.delete');
+        
+        });
+
     });
 
 });

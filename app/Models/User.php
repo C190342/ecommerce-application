@@ -40,13 +40,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /* if you wanna change column name of users table
+     * set function name is getEmailAttribute() that means change name of email column
+     * set result is return $this->user_email that was the true name you wanted to change
+     * default: email  --- your database: user_email
+    public function getIdAttribute() {
+        return $this->user_id;
+    }
+    */
+
     /**
      * @return string
      */
     public function getFullNameAttribute()
     {
-        return $this->first_name. ' '. $this->last_name;
+        // accessors
+        // return full name when call $profile->fullname that has not in your table
+        return $this->last_name. ' '. $this->first_name;
     }
+
+    /*
+     * return string
+     *
+    public function setPasswordAttribute($password)
+    {
+        // mutators 
+        // format your password before save it to datable
+        $this->attributes['password'] = bcrypt($password);
+    }
+    */
 
     public function orders()
     {

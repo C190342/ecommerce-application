@@ -6,10 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "darryldecode/cart": "~4.0",
+        "cartalyst/stripe-laravel": "^13.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "hardevine/shoppingcart": "^3.0",
         "laravel/framework": "^8.40",
         "laravel/helpers": "^1.4",
         "laravel/tinker": "^2.5",
@@ -30,7 +31,13 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+    
+            "app/helpers.php"
+    
+        ]
+    
     },
     "autoload-dev": {
         "psr-4": {

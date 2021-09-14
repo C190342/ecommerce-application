@@ -17,20 +17,26 @@ class OrderRepository extends BaseRepository implements OrderContract
         $this->model = $model;
     }
 
-    public function storeOrderDetails($params)
+    public function storeOrderDetails($params, $payment_method, $error)
     {
+        //$tax = (config('cart.tax') * Cart::instance('default')->subtotal(0, '', '')) / 100;
         $order = Order::create([
             'order_number'      =>  'ORD-'.strtoupper(uniqid()),
-            'user_id'           => auth()->user()->id,
+            'user_id'           =>  auth()->user()->id,
             'status'            =>  'pending',
-            'grand_total'       =>  Cart::getSubTotal(),
-            'item_count'        =>  Cart::getTotalQuantity(),
+            'tax'               =>  Cart::instance('default')->tax(0, '', ''),
+            'sub_total'         =>  Cart::instance('default')->subtotal(0, '', ''),
+            'grand_total'       =>  Cart::instance('default')->total(0, '', ''),
+            'item_count'        =>  Cart::instance('default')->count(),
             'payment_status'    =>  0,
-            'payment_method'    =>  null,
+            'payment_method'    =>  $payment_method,
+            'error'             =>  $error,
+            'shipped'           =>  0,
             'first_name'        =>  $params['first_name'],
             'last_name'         =>  $params['last_name'],
             'address'           =>  $params['address'],
             'city'              =>  $params['city'],
+            'prefecture'        =>  $params['state'],
             'country'           =>  $params['country'],
             'post_code'         =>  $params['post_code'],
             'phone_number'      =>  $params['phone_number'],
@@ -39,18 +45,21 @@ class OrderRepository extends BaseRepository implements OrderContract
     
         if ($order) {
     
-            $items = Cart::getContent();
-    
+            $items = Cart::content();
+            
             foreach ($items as $item)
             {
                 // A better way will be to bring the product id with the cart items
                 // you can explore the package documentation to send product id with the cart
                 $product = Product::where('name', $item->name)->first();
-    
+                Log::info('json_encode($item->options)');
+                Log::info(json_encode($item->options));
                 $orderItem = new OrderItem([
                     'product_id'    =>  $product->id,
-                    'quantity'      =>  $item->quantity,
-                    'price'         =>  $item->getPriceSum()
+                    'quantity'      =>  $item->qty,
+                    'price'         =>  $item->subtotal,
+                    'image'         =>  $item->image,
+                    'attributes'    =>  $item->options
                 ]);
     
                 $order->items()->save($orderItem);

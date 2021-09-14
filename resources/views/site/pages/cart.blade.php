@@ -1,6 +1,16 @@
 @extends('site.app')
 @section('title', 'Shopping Cart')
 @section('content')
+
+
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg-gray">
+<div class="container">
+	<h2 class="title-page">Shopping Cart</h2>
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION PAGETOP END// ========================= -->
+
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">
 <div class="container">
@@ -14,10 +24,7 @@
             <p class="alert alert-danger">{{ Session::get('error') }}</p>
         @endif
         
-        @if (\Cart::isEmpty())
-            <p class="alert alert-warning">Your shopping cart is empty.</p>
-        @else
-
+        @if (\Cart::instance('default')->count() > 0)
         <div class="card">
 
             <table class="table table-borderless table-shopping-cart">
@@ -26,26 +33,27 @@
                         <th scope="col">Product</th>
                         <th scope="col" width="180">Quantity</th>
                         <th scope="col" width="120">Price</th>
-                        <th scope="col" class="text-right" width="100"> </th>
+                        <th scope="col" class="text-right" width="130">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(\Cart::getContent() as $item)
+                    @foreach(\Cart::instance('default')->content() as $item)
                     <tr>
                         <td>
                             <figure class="itemside">
-                                <div class="aside">
-                                    
+                                <div class="aside zoom-div">
+                                    <a href="{{ route('product.show', $item->model->slug) }}">
                                     @if ($item->image != '')
-                                        <img src="{{ asset('storage/'.$item->image) }}" alt="" class="img-sm">
+                                        <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->model->name }}" class="img-sm">
                                     
                                     @else
-                                        <img src="https://via.placeholder.com/176" alt="" class="img-sm">
+                                        <img src="https://via.placeholder.com/176" alt="{{ $item->model->name }}" class="img-sm">
                                     @endif
+                                    </a>
                                 </div>
                                 <figcaption class="info">
-                                    <a href="#" class="title text-dark">{{ Str::words($item->name,20) }}</a>
-                                    @foreach($item->attributes as $key  => $value)
+                                    <strong><a href="{{ route('product.show', $item->model->slug) }}" class="title text-dark">{{ Str::words($item->model->name,20) }}</a></strong>
+                                    @foreach($item->options as $key  => $value)
                                     <dl class="dlist-inline text-muted small">
                                         <dt>{{ ucwords($key) }}: </dt>
                                         <dd>{{ ucwords($value) }}</dd>
@@ -55,26 +63,26 @@
                             </figure>
                         </td>
                         <td>
-                            <a href="{{ route('checkout.cart.minus', $item->id) }}" class="btn btn-light" > <i class="fas fa-minus"></i></a>
-                            <strong>{{ $item->quantity }}</strong>
-                            <a href="{{ route('checkout.cart.plus', $item->id) }}" class="btn btn-light" > <i class="fas fa-plus"></i></a>
+                            <a href="{{ route('checkout.cart.minus', $item->rowId) }}" class="btn btn-light" > <i class="fas fa-minus"></i></a>
+                            <strong>{{ $item->qty }}</strong>
+                            <a href="{{ route('checkout.cart.plus', $item->rowId) }}" class="btn btn-light" > <i class="fas fa-plus"></i></a>
                             
                         </td>
                         <td> 
                             <div class="price-wrap"> 
-                                <var class="price">{{ config('settings.currency_symbol') }}{{ \Cart::get($item->id)->getPriceSum() }}</var> 
-                                <small class="text-muted"> {{ config('settings.currency_symbol'). $item->price }} each </small> 
+                                <var class="price">{{ config('settings.currency_symbol'). number_format($item->subtotal) }}</var> 
+                                <small class="text-muted"> {{ config('settings.currency_symbol'). number_format($item->price) }} each </small> 
                             </div> <!-- price-wrap .// -->
                         </td>
                         <td class="text-right">
-                            <!-- <a data-original-title="Update quantity" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fas fa-save"></i></a> -->
-                            <a data-original-title="Remove item" title="" href="{{ route('checkout.cart.remove', $item->id) }}" class="btn btn-light" data-toggle="tooltip"> <i class="fas fa-trash-alt"></i></a>
+                            <a data-original-title="Move to wish list" title="" href="{{ route('checkout.cart.switchToWishlist', $item->rowId) }}" class="btn btn-light btn-wishlist" data-toggle="tooltip"> <i class="fas fa-heart"></i></a>
+                            <a data-original-title="Remove item" title="" href="{{ route('checkout.cart.remove', $item->rowId) }}" class="btn btn-light btn-remove" data-toggle="tooltip"> <i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-
+            
             <div class="card-body border-top">
                 <a href="{{ route('checkout.index') }}" class="btn btn-primary float-md-right"> Proceed To Checkout <i class="fa fa-chevron-right"></i> </a>
                 <a href="#" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
@@ -85,7 +93,13 @@
             <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
         </div>
 
-    @endif
+        @else
+        
+        <p class="alert alert-warning">Your shopping cart is empty.</p>
+
+        @endif
+        
+        
 	</main> <!-- col.// -->
 	<aside class="col-md-3">
 		<div class="card mb-3">
@@ -107,19 +121,19 @@
 			<div class="card-body">
 					<dl class="dlist-align">
 					  <dt>Total items:</dt>
-					  <dd class="text-right">{{ \Cart::getTotalQuantity() }}</dd>
+					  <dd class="text-right">{{ \Cart::instance('default')->count() }}</dd>
 					</dl>
 					<dl class="dlist-align">
 					  <dt>Total price:</dt>
-					  <dd class="text-right">USD 568</dd>
+					  <dd class="text-right">{{ \Cart::instance('default')->subtotal() }}</dd>
 					</dl>
 					<dl class="dlist-align">
-					  <dt>Discount:</dt>
-					  <dd class="text-right">USD 658</dd>
+					  <dt>Tax: (10%)</dt>
+					  <dd class="text-right">{{ \Cart::instance('default')->tax() }}</dd>
 					</dl>
 					<dl class="dlist-align">
 					  <dt>Total:</dt>
-					  <dd class="text-right  h5"><strong>{{ config('settings.currency_symbol') }}{{ \Cart::getTotal() }}</strong></dd>
+					  <dd class="text-right  h5"><strong>{{ config('settings.currency_symbol') }}{{ \Cart::instance('default')->total() }}</strong></dd>
 					</dl>
 					<hr>
                     <figure class="itemside mb-3">

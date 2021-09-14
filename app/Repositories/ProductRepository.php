@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use App\Contracts\ProductContract;
+use App\Models\Category;
+use App\Models\OrderItem;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
@@ -133,5 +135,6 @@ class ProductRepository extends BaseRepository implements ProductContract
 
         return $product;
     }
+
 
 }

@@ -20,10 +20,13 @@ class CreateProductsTable extends Migration
             $table->string('sku');
             $table->string('name');
             $table->string('slug');
-            $table->text('description')->nullable();
+            $table->string('summary');
+            $table->text('overview');
+            $table->text('description');
+            $table->text('specification')->nullable();
             $table->unsignedInteger('quantity');
-            $table->decimal('weight', 8, 2)->nullable();
-            $table->decimal('price', 8, 2)->nullable();
+            $table->decimal('shipping_fee', 8, 2)->nullable();
+            $table->decimal('price', 8, 2);
             $table->decimal('sale_price', 8, 2)->nullable();
             $table->boolean('status')->default(1);
             $table->boolean('featured')->default(0);

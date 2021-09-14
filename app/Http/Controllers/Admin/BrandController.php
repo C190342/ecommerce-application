@@ -9,14 +9,13 @@ use App\Models\Product;
 
 class BrandController extends BaseController
 {
-    //
     /**
      * @var BrandContract
      */
     protected $brandRepository;
 
     /**
-     * CategoryController constructor.
+     * BrandController constructor.
      * @param BrandContract $brandRepository
      */
     public function __construct(BrandContract $brandRepository)

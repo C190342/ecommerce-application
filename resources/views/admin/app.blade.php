@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/'.config('settings.site_favicon')) }}">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/main.css') }}?dt=2021082411" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/font-awesome/4.7.0/css/font-awesome.min.css') }}"/>
 
     <style type="text/css">
@@ -47,6 +47,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     @stack('scripts')
-    <script type="text/javascript" src="{{ asset('backend/js/app.js') }}"></script>
+    
 </body>
 </html>

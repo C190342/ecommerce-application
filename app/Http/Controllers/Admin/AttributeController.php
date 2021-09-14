@@ -35,8 +35,7 @@ class AttributeController extends BaseController
     {
         $this->validate($request, [
             'code'          =>  'required',
-            'name'          =>  'required',
-            'frontend_type' =>  'required'
+            'name'          =>  'required'
         ]);
 
         $params = $request->except('_token');
@@ -63,8 +62,7 @@ class AttributeController extends BaseController
     {
         $this->validate($request, [
             'code'          =>  'required',
-            'name'          =>  'required',
-            'frontend_type' =>  'required'
+            'name'          =>  'required'
         ]);
 
         $params = $request->except('_token');

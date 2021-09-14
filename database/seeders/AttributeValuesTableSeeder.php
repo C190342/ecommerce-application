@@ -15,7 +15,7 @@ class AttributeValuesTableSeeder extends Seeder
     public function run()
     {
         $sizes = ['small', 'medium', 'large'];
-        $colors = ['black', 'blue', 'red', 'orange'];
+        $colors = ['black', 'white', 'silver', 'gray', 'blue', 'red', 'orange', 'yellow'];
 
         foreach ($sizes as $size)
         {

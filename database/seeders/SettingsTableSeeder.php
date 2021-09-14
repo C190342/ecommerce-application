@@ -21,7 +21,7 @@ class SettingsTableSeeder extends Seeder
         ],
         [
             'key'                       =>  'default_email_address',
-            'value'                     =>  'admin@admin.com',
+            'value'                     =>  'admin@example.com',
         ],
         [
             'key'                       =>  'phone_number',
@@ -33,23 +33,23 @@ class SettingsTableSeeder extends Seeder
         ],
         [
             'key'                       =>  'currency_code',
-            'value'                     =>  'GBP',
+            'value'                     =>  'JPY',
         ],
         [
             'key'                       =>  'currency_symbol',
-            'value'                     =>  '£',
+            'value'                     =>  '￥',
         ],
         [
             'key'                       =>  'site_logo',
-            'value'                     =>  'settings/logo.png',
+            'value'                     =>  'settings/logobook.png',
         ],
         [
             'key'                       =>  'site_favicon',
-            'value'                     =>  'settings/favicon.ico',
+            'value'                     =>  'settings/faviconbook.ico',
         ],
         [
             'key'                       =>  'footer_copyright_text',
-            'value'                     =>  '',
+            'value'                     =>  'All rights reserved',
         ],
         [
             'key'                       =>  'seo_meta_title',
@@ -61,19 +61,19 @@ class SettingsTableSeeder extends Seeder
         ],
         [
             'key'                       =>  'social_facebook',
-            'value'                     =>  '',
+            'value'                     =>  'http://localhost/',
         ],
         [
             'key'                       =>  'social_twitter',
-            'value'                     =>  '',
+            'value'                     =>  'http://localhost/',
         ],
         [
             'key'                       =>  'social_instagram',
-            'value'                     =>  '',
+            'value'                     =>  'http://localhost/',
         ],
         [
             'key'                       =>  'social_linkedin',
-            'value'                     =>  '',
+            'value'                     =>  'http://localhost/',
         ],
         [
             'key'                       =>  'google_analytics',
@@ -85,19 +85,19 @@ class SettingsTableSeeder extends Seeder
         ],
         [
             'key'                       =>  'stripe_payment_method',
-            'value'                     =>  '',
+            'value'                     =>  1,
         ],
         [
             'key'                       =>  'stripe_key',
-            'value'                     =>  '',
+            'value'                     =>  'pk_test_51JSupyDq7S3lTZH24ldmwoyzE4gq5fU4NvsuBmH9wh3B3zOcabL0LoOIcGroKw9b7t9caQItr4cOCCFSTqiDMRBn00Q4WwgC8K',
         ],
         [
             'key'                       =>  'stripe_secret_key',
-            'value'                     =>  '',
+            'value'                     =>  'sk_test_51JSupyDq7S3lTZH2FASQIZqoJJnwISYmx4Ow7ktKg08hThVPAIPOVnE3nZC8TjZLboR2UuQJMyEQB9szuVMcuA600027B3dR9e',
         ],
         [
             'key'                       =>  'paypal_payment_method',
-            'value'                     =>  '',
+            'value'                     =>  0,
         ],
         [
             'key'                       =>  'paypal_client_id',
