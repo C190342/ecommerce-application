@@ -12,3 +12,9 @@ function format_dtime($date,$date_format){
     } 
     return $newdate;
 }
+
+function sale_percent($price,$sale_price){
+    $percent_ = 100 - round($sale_price * 100 / $price);
+
+    return $percent_.'%';
+}

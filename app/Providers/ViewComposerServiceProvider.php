@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\Sale;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,10 @@ class ViewComposerServiceProvider extends ServiceProvider
                         ->get();//Order::where('user_id', '=', $id)->get();
             $orderCount = $orderlist->count();
             $view->with('orderCount', $orderCount);
+
+            $categories = Category::where('id', '<>', 1)->get();
+            $view->with('categories', $categories);
+
         });
         
     }

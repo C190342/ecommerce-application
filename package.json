@@ -26,13 +26,14 @@
     "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
+    "pc-bootstrap4-datetimepicker": "^4.17.51",
     "query-string": "^0.2.0",
     "querystring": "^0.2.0",
     "resolve-url": "^0.2.1",
+    "select2": "^4.0",
     "urix": "^0.1.0",
     "uuid": "^7.0.3",
-    "vue-sweetalert2": "^5.0.2",
-    "select2": "^4.0"
+    "vue-sweetalert2": "^5.0.2"
   },
   "name": "ecommerce-application",
   "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\"></a></p>",

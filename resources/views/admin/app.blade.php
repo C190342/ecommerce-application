@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/main.css') }}?dt=2021082411" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/font-awesome/4.7.0/css/font-awesome.min.css') }}"/>
-
+    @stack('styles')
     <style type="text/css">
         .self_style a{
             color: #FFF !important;

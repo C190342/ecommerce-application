@@ -27,65 +27,51 @@
                 <div class="row">
                     <div class="col-md-2">Filter by</div> <!-- col.// -->
                     <div class="col-md-10"> 
-                        <ul class="list-inline">
-                            <li class="list-inline-item mr-3 dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">   Supplier type </a>
-                                <div class="dropdown-menu p-3" style="max-width:400px;">	
-                                    <label class="form-check">
-                                        <input type="radio" name="myfilter" class="form-check-input"> Good supplier
+                        <form action="{{ route('category.show', $category->slug) }}" method="GET">
+                            <ul class="list-inline">
+                                
+                                <li class="list-inline-item mr-3 dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">  Brand </a>
+                                    <div class="dropdown-menu p-3">	
+
+                                        @foreach($brands as $key => $value)
+                                        
+                                            @if(request()->has('brand'))
+                                                @foreach(request()->brand as $brand)
+                                                    @if($key == $brand)
+                                                        <label class="form-check"> 	 <input type="checkbox" checked class="form-check-input" value="{{ $key }}" name="brand[]"> {{ $value }}    </label>
+                                                        @break
+                                                    @endif
+                                                    @if($loop->last && $key != $brand)
+                                                        <label class="form-check"> 	 <input type="checkbox" class="form-check-input" value="{{ $key }}" name="brand[]"> {{ $value }}    </label>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                            <label class="form-check"> 	 <input type="checkbox" class="form-check-input" value="{{ $key }}" name="brand[]"> {{ $value }}    </label>
+                                            @endif
+                                        @endforeach
+                                    </div> <!-- dropdown-menu.// -->
+                                </li>
+                                
+                                <li class="list-inline-item mr-3">
+                                    <div class="form-inline">
+                                        <label class="mr-2">Price</label>
+                                        <input class="form-control form-control-sm" placeholder="Min" type="number" name="min_price">
+                                        <span class="px-2"> - </span>
+                                        <input class="form-control form-control-sm" placeholder="Max" type="number" name="max_price">
+                                        <button type="submit" class="btn btn-sm btn-light ml-2">Ok</button>
+                                    </div>
+                                </li>
+                                <!--
+                                <li class="list-inline-item mr-3">
+                                    <label class="custom-control mt-1 custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <div class="custom-control-label">Ready to ship</div>
                                     </label>
-                                    <label class="form-check">	
-                                        <input type="radio" name="myfilter" class="form-check-input"> Best supplier
-                                    </label>
-                                    <label class="form-check">
-                                        <input type="radio" name="myfilter" class="form-check-input"> New supplier
-                                    </label>
-                                </div> <!-- dropdown-menu.// -->
-                            </li>
-                            <li class="list-inline-item mr-3 dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">  Country </a>
-                                <div class="dropdown-menu p-3">	
-                                    <label class="form-check"> 	 <input type="checkbox" class="form-check-input"> China    </label>
-                                    <label class="form-check">   	 <input type="checkbox" class="form-check-input"> Japan      </label>
-                                    <label class="form-check">    <input type="checkbox" class="form-check-input"> Uzbekistan  </label>
-                                    <label class="form-check">  <input type="checkbox" class="form-check-input"> Russia     </label>
-                                </div> <!-- dropdown-menu.// -->
-                            </li>
-                            <li class="list-inline-item mr-3 dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Feature</a>
-                                <div class="dropdown-menu">
-                                    <a href="" class="dropdown-item">Anti backterial</a>
-                                    <a href="" class="dropdown-item">With buttons</a>
-                                    <a href="" class="dropdown-item">Extra safety</a>
-                                </div>
-                            </li>
-                            <li class="list-inline-item mr-3 dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">  Color </a>
-                                <div class="dropdown-menu p-3">	
-                                    <label class="form-check"><input type="checkbox" class="form-check-input"> Black</label>
-                                    <label class="form-check"><input type="checkbox" class="form-check-input"> White</label>
-                                    <label class="form-check"><input type="checkbox" class="form-check-input"> Red</label>
-                                    <label class="form-check"><input type="checkbox" class="form-check-input"> Blue</label>
-                                </div> <!-- dropdown-menu.// -->
-                            </li>
-                            <li class="list-inline-item mr-3"><a href="#">Size</a></li>
-                            <li class="list-inline-item mr-3">
-                                <div class="form-inline">
-                                    <label class="mr-2">Price</label>
-                                    <input class="form-control form-control-sm" placeholder="Min" type="number">
-                                    <span class="px-2"> - </span>
-                                    <input class="form-control form-control-sm" placeholder="Max" type="number">
-                                    <button type="submit" class="btn btn-sm btn-light ml-2">Ok</button>
-                                </div>
-                            </li>
-                            <!--
-                            <li class="list-inline-item mr-3">
-                                <label class="custom-control mt-1 custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <div class="custom-control-label">Ready to ship</div>
-                                </label>
-                            </li>
-                            -->
-                        </ul>
+                                </li>
+                                -->
+                            </ul>
+                        </form>
                     </div> <!-- col.// -->
                 </div> <!-- row.// -->
             </div> <!-- card-body .// -->
@@ -94,41 +80,56 @@
 
         <header class="mb-3">
             <div class="form-inline">
-                <strong class="mr-md-auto">32 Items found </strong>
-                <select class="mr-2 form-control">
-                    <option>Latest items</option>
-                    <option>Trending</option>
-                    <option>Most Popular</option>
-                    <option>Cheapest</option>
-                </select>
-                <div class="btn-group">
-                    <a href="{{ url('/search/1') }}" class="btn btn-light" data-toggle="tooltip" title="List view"> 
-                        <i class="fa fa-bars"></i></a>
-                    <a href="{{ url('/search/2') }}" class="btn btn-light active" data-toggle="tooltip" title="Grid view"> 
-                        <i class="fa fa-th"></i></a>
-                </div>
+                <strong class="mr-md-auto">Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} Items</strong>
+                <form action="{{ route('category.show', $category->slug) }}" method="GET">
+                    @if(request()->has('brand'))
+                        @foreach(request()->brand as $brand)
+                        <input style="display: none;" value="{{ $brand }}" name="brand[]">
+                        @endforeach
+                    @endif
+                    @if(request()->has('min_price'))
+                    <input style="display: none;" value="{{ request()->get('min_price') }}" name="min_price">
+                    @endif
+                    @if(request()->has('max_price'))
+                    <input style="display: none;" value="{{ request()->get('max_price') }}" name="max_price">
+                    @endif
+					<select class="form-control" id="filter" name="filter">
+						<option value="lastest" @if($orderBy == '' || $orderBy == 'lastest') selected @endif >Latest items</option>
+						<option value="lowToHigh" @if($orderBy == 'lowToHigh') selected @endif >Price Low to High</option>
+						<option value="highToLow" @if($orderBy == 'highToLow') selected @endif >Price High to Low</option>
+					</select>
+				</form>
             </div>
         </header><!-- sect-heading -->
         
         <div class="row">
-            @forelse($category->products as $product)
+            @forelse($products as $product)
                 @if($product->status == 1)
                 <div class="col-md-3">
                     <figure class="card card-product-grid">
                         <div class="img-wrap"> 
+                            {{-- $product->created_at->diffInDays(Carbon\Carbon::now()) < 30 --}}
+                            @if( Carbon\Carbon::now()->subMonth()->lt($product->created_at) )
                             <span class="badge badge-danger"> NEW </span>
+                            @endif
                             <a href="{{ route('product.show', $product->slug) }}">
                             @if ($product->images->count() > 0)
                                 <img src="{{ asset('storage/'.$product->images->first()->full) }}" alt="">
                             @else
                                 <img src="{{ asset('frontend/images/noimage.jpg') }}" alt="">
                             @endif
+                            @if( $sale && $product->sale_price > 0)
+                                <div class="badge-saleoff-overlay">
+                                    <!-- Change Badge Position, Color, Text here-->
+                                    <span class="top-right badge-saleoff orange">Sale {{ sale_percent($product->price,$product->sale_price)}} OFF</span>
+                                </div>
+                            @endif
                             </a>
                         </div> <!-- img-wrap.// -->
                         <figcaption class="info-wrap">
                                 <a href="{{ route('product.show', $product->slug) }}" class="title mb-2 h5">{{ $product->name }}</a>
                                 <div class="price-wrap">
-                                @if ($product->sale_price != 0)
+                                @if( $sale && $product->sale_price > 0)
                                     
                                     <span class="price"> {{ config('settings.currency_symbol').number_format($product->sale_price) }} </span>
                                     
@@ -169,8 +170,27 @@
                 </div>
             @endforelse
         </div> <!-- row end.// -->
-
-
+        
+        <div class="mb-4">
+            @if($orderBy != '')
+                @if(request()->get('brand'))
+                    {{ $products->appends(['brand' => request()->get('brand'), 'min_price' => $_REQUEST['min_price'], 'max_price' => request()->get('max_price'), 'filter' => $orderBy ])->links() }}
+                @elseif(request()->get('max_price'))
+                    {{ $products->appends(['min_price' => request()->get('min_price'), 'max_price' => request()->get('max_price'), 'filter' => $orderBy ])->links() }}
+                @else
+                    {{ $products->appends(['filter' => $orderBy ])->links() }}
+                @endif
+            @else
+                @if(request()->get('brand'))
+                    {{ $products->appends(['brand' => request()->get('brand'), 'min_price' => $_REQUEST['min_price'], 'max_price' => request()->get('max_price') ])->links() }}
+                @elseif(request()->get('max_price'))
+                    {{ $products->appends(['min_price' => request()->get('min_price'), 'max_price' => request()->get('max_price') ])->links() }}
+                @else
+                    {{ $products->links() }}
+                @endif
+            @endif
+        </div>
+{{-- 
         <nav class="mb-4" aria-label="Page navigation sample">
         
             <ul class="pagination">
@@ -182,7 +202,7 @@
                 <li class="page-item"><a class="page-link" href="#">5</a></li>
                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
-        </nav>
+        </nav> --}}
 
     </div> <!-- container .//  -->
 </section>
@@ -216,5 +236,12 @@
 <!-- ========================= SECTION SUBSCRIBE END// ========================= -->
 @stop
 @push('scripts')
-
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var select = document.getElementById('filter');
+			select.addEventListener('change', function(){
+				this.form.submit();
+			}, false);
+		});
+	</script>
 @endpush

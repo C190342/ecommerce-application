@@ -34,7 +34,9 @@ Route::post('/product/add', 'Site\ProductController@addTo')->name('product.add')
 
 // search result
 //Route::get('/search/{slug}', 'Site\ProductController@search')->name('search.result');
-Route::get('/search/{slug}', 'Site\ProductController@search')->name('search.result');
+//Route::get('/search/{slug}', 'Site\ProductController@search')->name('search.result');
+
+Route::get('/search/', 'Site\ProductController@search')->name('search.result');
 
 // cart
 Route::get('/cart', 'Site\CartController@getCart')->name('checkout.cart');

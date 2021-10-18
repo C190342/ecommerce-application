@@ -78,7 +78,7 @@
 					</div> <!-- rating-wrap.// -->
 
 					<div class="mb-3"> 
-						@if ($product->sale_price > 0)
+						@if ($sale && $product->sale_price > 0)
 						<span class="currency">{{ config('settings.currency_symbol') }}</span><var class="price h4"  id="productPrice">{{ $product->sale_price }}</var> 
 						<span class="text-muted">{{ config('settings.currency_symbol') }} {{ $product->price }}</span>
 						@else
@@ -138,28 +138,6 @@
 							<button type="submit" class="btn  btn-danger ml-2" name="addTo" value="wishlist"> 
 								<i class="fas fa-heart"></i> <span class="text">Add to wishlist</span> 
 							</button>
-							<!--
-							<div class="form-group col-md flex-grow-0">
-								<div class="input-group mb-3 input-spinner">
-								<div class="input-group-prepend">
-									<button class="btn btn-light" type="button" id="button-plus"> + </button>
-								</div>
-								<input type="text" class="form-control" value="1">
-								<div class="input-group-append">
-									<button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
-								</div>
-								</div>
-							</div> 
-							<div class="form-group col-md">
-								<button type="submit" class="btn  btn-primary"> 
-									<i class="fas fa-shopping-cart"></i> <span class="text">Add to cart</span> 
-								</button>
-								
-								<a href="#" class="btn btn-light">
-									<i class="fas fa-envelope"></i> <span class="text">Contact supplier</span> 
-								</a>
-								
-							</div> --> <!-- col.// -->
 						</div> <!-- row.// -->
 					</form> <!-- form.// -->
 
@@ -250,7 +228,7 @@
 						</a>
 						<div class="media-body">
 							<h6 class="mt-0"><a href="{{ route('product.show', $p_product->slug) }}">{{ $p_product->name }}</a></h6>
-							<p class="mb-2">{{ Str::words($p_product->description,20) }}</p>
+							<p class="mb-2">{{ $p_product->summary }}</p>
 						</div>
 					</article>
 					@endforeach

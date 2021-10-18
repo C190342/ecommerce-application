@@ -8,24 +8,25 @@
 				</a> <!-- brand-wrap.// -->
 			</div>
 			<div class="col-xl-6 col-lg-5 col-md-7">
-				<form action="#" class="search-header">
+				<form action="{{ route('search.result') }}" method="GET" class="search-header">
 					<div class="input-group w-100">
 						<select class="custom-select border-right"  name="category_name">
-								<option value="">All type</option><option value="codex">Special</option>
-								<option value="comments">Only best</option>
-								<option value="content">Latest</option>
+								<option value="all">All categories</option>
+								@foreach($categories as $category)
+								<option value="{{ $category->slug }}">{{ $category->name }}</option>
+								@endforeach
 						</select>
-					    <input type="text" class="form-control" placeholder="Search">
+					    <input type="text" class="form-control" placeholder="Search" name="search">
 					    
 					    <div class="input-group-append">
-<!--
+
 							<button class="btn btn-primary" type="submit">
 								<i class="fa fa-search"></i> Search
 							</button>
--->
+<!--
 							<a class="btn btn-primary" href="{{ url('/search/1') }}">
 								<i class="fa fa-search"></i> Search
-							</a>
+							</a> -->
 					    </div>
 				    </div>
 				</form> <!-- search-wrap .end// -->

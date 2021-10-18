@@ -18,7 +18,7 @@
         <!-- ========================= SECTION MAIN END// ========================= -->
 
 
-
+        @if($sale)
         <!-- =============== SECTION DEAL =============== -->
         <section class="padding-bottom">
             <div class="card card-deal">
@@ -27,71 +27,43 @@
                         <h3 class="section-title">Deals and offers</h3>
                         <p>Hygiene equipments</p>
                     </header><!-- sect-heading -->
-                    <div class="timer" data-countdown="2021/10/29">
+                    <div class="timer" data-countdown="{{ $sale->sale_exp }}">
                     </div>
                 </div> <!-- col.// -->
                 <div class="row no-gutters items-wrap">
-                    <div class="col-md col-6">
-                        <figure class="card-product-grid card-sm">
-                            <a href="#" class="img-wrap"> 
-                                <img src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/items/3.jpg"> 
-                            </a>
-                            <div class="text-wrap p-3">
-                                <a href="#" class="title">Summer clothes</a>
-                                <span class="badge badge-danger"> -20% </span>
-                            </div>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-md col-6">
-                        <figure class="card-product-grid card-sm">
-                            <a href="#" class="img-wrap"> 
-                                <img src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/items/4.jpg"> 
-                            </a>
-                            <div class="text-wrap p-3">
-                                <a href="#" class="title">Some category</a>
-                                <span class="badge badge-danger"> -5% </span>
-                            </div>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-md col-6">
-                        <figure class="card-product-grid card-sm">
-                            <a href="#" class="img-wrap"> 
-                                <img src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/items/5.jpg"> 
-                            </a>
-                            <div class="text-wrap p-3">
-                                <a href="#" class="title">Another category</a>
-                                <span class="badge badge-danger"> -20% </span>
-                            </div>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-md col-6">
-                        <figure class="card-product-grid card-sm">
-                            <a href="#" class="img-wrap"> 
-                                <img src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/items/6.jpg"> 
-                            </a>
-                            <div class="text-wrap p-3">
-                                <a href="#" class="title">Home apparel</a>
-                                <span class="badge badge-danger"> -15% </span>
-                            </div>
-                        </figure>
-                    </div> <!-- col.// -->
-                    <div class="col-md col-6">
-                        <figure class="card-product-grid card-sm">
-                            <a href="#" class="img-wrap"> 
-                                <img src="https://bootstrap-ecommerce.com/templates/alistyle-html/images/items/7.jpg"> 
-                            </a>
-                            <div class="text-wrap p-3">
-                                <a href="#" class="title text-truncate">Smart watches</a>
-                                <span class="badge badge-danger"> -10% </span>
-                            </div>
-                        </figure>
-                    </div> <!-- col.// -->
+                    @foreach($categories as $category)
+                        @if($category->id != 1)
+                            @foreach($category->products as $product)
+                                @if($product->sale_price > 0)
+                                    <div class="col-md col-6">
+                                        <figure class="card-product-grid card-sm">
+                                            <a href="{{ route('product.show', $product->slug) }}" class="img-wrap"> 
+                                                @if ($product->images->count() > 0)
+                                                <img class="" src="{{ asset('storage/'.$product->images->first()->full) }}"> 
+                                                @else
+                                                <img class="img-sm float-right" src="{{ asset('frontend/images/noimage.jpg') }}"> 
+                                                @endif
+                                            </a>
+                                            <div class="text-wrap p-3">
+                                                <a href="{{ route('product.show', $product->slug) }}" class="title">{{ $product->name }}</a>
+                                                @if( Carbon\Carbon::now()->subMonth()->lt($product->created_at) )
+                                                    <span class="badge badge-danger"> NEW </span>
+                                                @endif
+                                                <span class="badge badge-danger"> SALE {{ sale_percent($product->price,$product->sale_price)}} OFF</span>
+                                            </div>
+                                        </figure>
+                                    </div> <!-- col.// -->
+                                    @break
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
                 </div>
             </div>
 
         </section>
         <!-- =============== SECTION DEAL // END =============== -->
-
+        @endif
         <!-- =============== SECTION 1 =============== -->
         @foreach($categories as $category)
         @if($category->id != 1)
@@ -130,6 +102,12 @@
                                         <img class="img-sm float-right" src="{{ asset('frontend/images/noimage.jpg') }}"> 
                                         @endif
                                         <p class="text-muted"><i class="fa fa-map-marker-alt"></i> {{ $product->summary }}</p>
+                                        @if( Carbon\Carbon::now()->subMonth()->lt($product->created_at) )
+                                            <span class="badge badge-danger"> NEW </span>
+                                        @endif
+                                        @if( $sale && $product->sale_price > 0)
+                                            <span class="badge badge-danger">SALE {{ sale_percent($product->price,$product->sale_price)}} OFF</span>
+                                        @endif
                                     </div>
                                 </a>
                             </li>
@@ -225,18 +203,25 @@
                         <a href="{{ route('product.show', $r_product->slug) }}" class="img-wrap"> <img src="{{ asset('frontend/images/noimage.jpg') }}">  </a>
                         @endif
                         
+                        @if( $sale && $r_product->sale_price > 0)
+                        <div class="badge-saleoff-overlay">
+                            <!-- Change Badge Position, Color, Text here-->
+                            <span class="top-right badge-saleoff orange">Sale {{ sale_percent($r_product->price,$r_product->sale_price)}} OFF</span>
+                        </div>
+                        @endif
+                        
                         <figcaption class="info-wrap">
                             <a href="{{ route('product.show', $r_product->slug) }}" class="title">{{ $r_product->name }}</a>
-                            @if ($r_product->sale_price != 0)
-                                <div class="price mt-1">{{ config('settings.currency_symbol').number_format($r_product->sale_price) }}</div> <!-- price-wrap.// -->
-                                    
-                                <del class="price-old"> {{ config('settings.currency_symbol').number_format($r_product->price) }}</del>
-                                    
-                                @else
-                                    
-                                <div class="price mt-1">{{ config('settings.currency_symbol').number_format($r_product->price) }}</div> <!-- price-wrap.// -->
-                                    
-                                @endif 
+                            @if ($sale && $r_product->sale_price > 0)
+                            <div class="price mt-1">{{ config('settings.currency_symbol').number_format($r_product->sale_price) }}</div> <!-- price-wrap.// -->
+                                
+                            <del class="price-old"> {{ config('settings.currency_symbol').number_format($r_product->price) }}</del>
+                                
+                            @else
+                                
+                            <div class="price mt-1">{{ config('settings.currency_symbol').number_format($r_product->price) }}</div> <!-- price-wrap.// -->
+                                
+                            @endif 
                             
                         </figcaption>
                     </div>

@@ -33,7 +33,7 @@ class Product extends Model
         'quantity'  =>  'integer',
         'brand_id'  =>  'integer',
         'status'    =>  'boolean',
-        'featured'  =>  'boolean'
+        'featured'  =>  'boolean',
     ];
 
      /**

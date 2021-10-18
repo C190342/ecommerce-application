@@ -8,12 +8,11 @@ use App\Contracts\ProductContract;
 use App\Contracts\CategoryContract;
 use App\Http\Controllers\Controller;
 use App\Contracts\AttributeContract;
-use App\Models\OrderItem;
-use App\Models\Product;
-use Illuminate\Support\Facades\Log;
+use App\Models\Sale;
+use Illuminate\Support\Carbon;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -31,11 +30,10 @@ class ProductController extends Controller
 
     public function show($slug)
     {
+        $sale = Sale::whereActive(1)->where('sale_exp', '>', Carbon::now())->first();
         $product = $this->productRepository->findProductBySlug($slug);
         $attributes = $this->attributeRepository->listAttributes();
         $category = $product->categories->first();
-        Log::info('$product->categories');
-        Log::info($category);
         
         //Log::info($category->products);
         /* 
@@ -87,9 +85,34 @@ class ProductController extends Controller
 
 
         //dd($product);
-        return view('site.pages.details', compact('product', 'attributes', 'category', 'popular_products', 'related_products'));
+        return view('site.pages.details', compact('product', 'attributes', 'category', 'popular_products', 'related_products', 'sale'));
     }
 
+    public function search(Request $request)
+    {
+        $orderBy = $request->has('filter') ? $request->input('filter') : '';
+        Log::info("orderBy");
+        Log::info($orderBy);
+        $search = $request->input('search');
+        $category = $request->input('category_name');
+        $sale = Sale::whereActive(1)->where('sale_exp', '>', Carbon::now())->first();
+
+        if($category == 'all') {
+            $cat_name = 'All categories';
+
+            $products = $this->productRepository->findProductsByWords($search, $orderBy);
+        }
+        else {
+            $cate = $this->categoryRepository->findBySlug($category);
+
+            $products = $this->productRepository->findProductsInCategoryByWords($cate->id, $search, $orderBy);
+
+            $cat_name = $cate->name;
+        }
+        // Return the search view with the resluts compacted
+        return view('site.pages.search', compact('products', 'search', 'cat_name', 'sale', 'orderBy'));
+    }
+    /*
     public function search($slug)
     {
         //$product = $this->productRepository->findProductBySlug($slug);
@@ -101,7 +124,7 @@ class ProductController extends Controller
         }
         return view('site.pages.search');
     }
-
+*/
     public function addTo(Request $request)
     {
         /*

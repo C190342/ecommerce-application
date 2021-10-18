@@ -32,6 +32,16 @@ interface BaseContract
     public function all($columns = array('*'), string $orderBy = 'id', string $sortBy = 'desc');
 
     /**
+     * Retrieve all data of repository, paginated
+     *
+     * @param null $limit
+     * @param array $columns
+     *
+     * @return mixed
+     */
+    public function paginate($limit = null, $columns = array('*'));
+
+    /**
      * Find one by ID
      * @param int $id
      * @return mixed

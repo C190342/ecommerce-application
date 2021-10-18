@@ -23,6 +23,21 @@ interface ProductContract
     public function findProductById(int $id);
 
     /**
+     * @param $category_id
+     * @param $orderBy
+     * @param $keyword
+     * @return mixed
+     */
+    public function findProductsInCategoryByWords($category_id, $keyword, $orderBy);
+
+    /**
+     * @param $orderBy
+     * @param $keyword
+     * @return mixed
+     */
+    public function findProductsByWords($keyword, $orderBy);
+
+    /**
      * @param array $params
      * @return mixed
      */

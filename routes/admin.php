@@ -103,6 +103,18 @@ Route::group(['prefix'  =>  'admin'], function () {
         
         });
 
+        // sales route
+        Route::group(['prefix'  =>   'sales'], function() {
+
+            Route::get('/', 'Admin\SaleController@index')->name('admin.sales.index');
+            Route::get('/create', 'Admin\SaleController@create')->name('admin.sales.create');
+            Route::post('/store', 'Admin\SaleController@store')->name('admin.sales.store');
+            Route::get('/{id}/edit', 'Admin\SaleController@edit')->name('admin.sales.edit');
+            Route::post('/update', 'Admin\SaleController@update')->name('admin.sales.update');
+            Route::get('/{id}/delete', 'Admin\SaleController@delete')->name('admin.sales.delete');
+        
+        });
+
     });
 
 });
